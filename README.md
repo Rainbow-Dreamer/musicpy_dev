@@ -22,5 +22,5 @@ c3, instrument 47, start_time 2, channel 1, track_name harp
 end
 
 # write the piece instance example_song to a MIDI file
-write example_song name='test.mid'
+write example_song, name='test.mid'
 ```
