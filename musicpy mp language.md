@@ -27,7 +27,7 @@ play result
 
 ```python
 define piece e3
-name: example_song
+name: example song
 bpm: 150
 track:
 c1, instrument 1, start_time 0, channel 0, track_name piano
@@ -40,7 +40,7 @@ end
 #### or specify tracks information separately
 ```python
 define piece e3
-name: example_song
+name: example song
 bpm: 150
 tracks: c1, c3
 instruments: 1, 47
@@ -96,7 +96,7 @@ end
 use sampler
 define sampler current
 num: 3
-name: example_song
+name: example song
 bpm: 150
 channels:
 channel 1, name piano, sound "celeste.sf2"
