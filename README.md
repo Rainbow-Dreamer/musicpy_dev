@@ -6,7 +6,7 @@ I do want to implement an inner language of musicpy that uses a totally independ
 
 There are already some drafts about the syntax design. I will start working on implementing the compiler to convert this inner language of musicpy to actual python code that uses musicpy could execute soon.
 
-You can see the draft of the design of this inner language here.
+You can see the draft of the design of this inner language [here](musicpy mp language.md).
 
 For example, a construction of a piece instance in this inner language will be like:
 ```
