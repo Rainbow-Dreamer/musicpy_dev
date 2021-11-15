@@ -3,19 +3,19 @@
 #### some examples of constructing notes, chords and scales
 
 ```python
-c1 = chord Cmaj7
-c2 = chord [C5, F5, G5, C6]
-c3 = chord (F5, A5, C6, E6)
-a1 = chord {c, f, g, c}
-a2 = note C5
-a2 = note C5 (channel 0)
-a3 = scale (C5 major)
-b1 = S (C5 major)
-b2 = C (Cmaj7)
-b3 = N C5
-e1 = piece {(c1, 1, start_time=0), (c3, 47, start_time=2), (bpm 150), (name example_song)}
-e2 = P {(c1, 1, start_time=0), (c3, 47, start_time=2)}
-result = c1 | c2
+let c1 = chord Cmaj7
+let c2 = chord [C5, F5, G5, C6]
+let c3 = chord (F5, A5, C6, E6)
+let a1 = chord {c, f, g, c}
+let a2 = note C5
+let a2 = note C5 (channel 0)
+let a3 = scale (C5 major)
+let b1 = S (C5 major)
+let b2 = C (Cmaj7)
+let b3 = N C5
+let e1 = piece {(c1, 1, start_time=0), (c3, 47, start_time=2), (bpm 150), (name example_song)}
+let e2 = P {(c1, 1, start_time=0), (c3, 47, start_time=2)}
+let result = c1 | c2
 write result
 play result
 ```
@@ -56,18 +56,18 @@ end
 
 #### get the first track of the piece instance e3
 ```python
-t1 = e3[1]
+let t1 = e3[1]
 ```
 
 #### get the attributes of the track instance
 ```python
-t1_channel = t1.channel
+let t1_channel = t1.channel
 ```
 
 #### use functions of the chord instance
 ```python
-e5 = c1 + 2
-e5 = c1.reverse()
+let e5 = c1 + 2
+let e5 = c1.reverse()
 ```
 
 #### define drum beats
