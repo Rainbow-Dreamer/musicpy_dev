@@ -10,8 +10,8 @@ You can see the draft of the design of this inner language [here](https://github
 
 For example, a construction of a piece instance in this inner language will be like:
 ```
-c1 = chord Cmaj7
-c3 = chord (F5, A5, C6, E6)
+let c1 = chord Cmaj7
+let c3 = chord (F5, A5, C6, E6)
 
 define piece example_song
 name: example song
