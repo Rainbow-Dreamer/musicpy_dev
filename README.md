@@ -1,6 +1,13 @@
 # musicpy_dev
 This is a repository holding musicpy develop thoughts and some other related stuffs.
 
+### Date: 2021-11-16
+I have already finished writing some of the most basic syntax parsing functionality of the interpreter for this inner language.
+
+By the way, I think this inner language of musicpy should be called `mplang`.
+
+Well, as the implementation of the syntax abstraction in the interpreter, there will be some special syntax restriction in some specific cases, but not that much. The syntax of mplang will look very different from python, and I have decided to make a special syntax that allows users to write straight python codes inside mplang, which I will talk about in the wiki when the design of this inner language is finished.
+
 ### Date: 2021-11-15
 I do want to implement an inner language of musicpy that uses a totally independent syntax to represent data structures of musicpy and other functionality these days.
 
