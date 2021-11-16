@@ -2,7 +2,7 @@
 This is a repository holding musicpy develop thoughts and some other related stuffs.
 
 ### Date: 2021-11-16
-I have already finished writing some of the most basic syntax parsing functionality of the interpreter for this inner language.
+I have already finished the implementation of some of the most basic syntax parsing functionality of the interpreter for this inner language.
 
 By the way, I think this inner language of musicpy should be called `mplang`.
 
