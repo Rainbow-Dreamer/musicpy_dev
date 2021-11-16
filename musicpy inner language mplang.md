@@ -1,4 +1,4 @@
-### this is a representation of musicpy inner language which could be converted to python code, and then execute with musicpy package, with suggested file extension `.mp`
+### this is a representation of musicpy inner language `mplang` which could be converted to python code, and then execute with musicpy package, with suggested file extension `.mp`
 
 #### some examples of constructing notes, chords and scales
 
