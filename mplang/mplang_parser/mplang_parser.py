@@ -501,7 +501,7 @@ def interactive_parse():
     global define_variable
     print('Welcome to mplang')
     while True:
-        current = input()
+        current = input('> ')
         if current.strip():
             try:
                 if python_state:
