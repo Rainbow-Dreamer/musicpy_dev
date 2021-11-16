@@ -15,6 +15,7 @@ let b2 = C (Cmaj7)
 let b3 = N C5
 let e1 = piece {(c1, 1, start_time=0), (c3, 47, start_time=2), (bpm 150), (name example_song)}
 let e2 = P {(c1, 1, start_time=0), (c3, 47, start_time=2)}
+let e1 = piece{tracks: (c1, c2), instruments: (1, 47), channels: (0, 1), bpm: 150, name: example_song}
 let result = c1 | c2
 write result
 play result
@@ -73,7 +74,7 @@ let e5 = c1.reverse()
 #### define drum beats
 ```python
 # this syntax must be in one line
-d1 = drum 0,1,2,1,{2}
+let d1 = drum 0,1,2,1,{2}
 
 # this syntax supports multiple lines
 define drum d1
