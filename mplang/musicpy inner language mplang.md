@@ -1,6 +1,10 @@
-### this is a representation of musicpy inner language `mplang` which could be converted to python code, and then execute with musicpy package, with suggested file extension `.mp`
+## mplang
 
-#### some examples of constructing notes, chords and scales
+#### This is a representation of musicpy inner language `mplang` which could be converted to python code, and then be executed with musicpy package.
+
+#### The suggested file extension of mplang is `.mp`
+
+### some examples of constructing notes, chords and scales
 
 ```
 let c1 = chord Cmaj7
@@ -14,8 +18,14 @@ let e1 = piece {(c1, 1, start_time=0); (c3, 47, start_time=2); (bpm 150); (name 
 let e5 = piece {tracks: (c1, c2); instruments: (1, 47); channels: (0, 1); bpm: 150; name: example_song}
 let s1 = scale (C5 major; interval=[1,2,1,1,2,1,2])
 let result = c1 | c2
-write result
-play result
+```
+
+#### Normal assignment without `let` keyword will work as straight python code, but the musicpy data structure token like `chord`, `note` won't be recognized in this case.
+
+```
+c1 = C('Cmaj7')
+c2 = chord('C5, F5, G5, C6')
+result = c1 | c2
 ```
 
 
@@ -33,8 +43,6 @@ c3, instrument 47, start_time 2, channel 1, track_name harp
 end
 ```
 
-
-
 #### or specify tracks information separately
 ```
 define piece e3
@@ -48,9 +56,29 @@ track_names: piano, harp
 end
 ```
 
+#### (the order of the keywords in the definition body of piece could be changed)
 
 
-### the order of the keywords in the definition body of piece could be changed
+
+### Using functions
+
+#### Using functions in mplang is like using python functions without the parenthesis
+
+```
+write result, name='test.mid'
+play result
+```
+
+If you want to include the parenthesis, make sure there are no spaces in the line, then it will work as straight python code.
+
+```
+write(result,name='test.mid')
+play(result)
+```
+
+
+
+
 
 #### get the first track of the piece instance e3
 ```
@@ -84,7 +112,7 @@ pattern:
 end
 ```
 
-#### there could be empty lines inside the definition body
+#### (there could be empty lines inside the definition body)
 
 
 
