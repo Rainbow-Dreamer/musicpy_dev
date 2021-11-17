@@ -10,9 +10,6 @@ let a1 = chord {c, f, g, c}
 let a2 = note C5
 let a2 = note C5 (channel 3)
 let a3 = scale (C5 major)
-let b1 = S (C5 major)
-let b2 = C (Cmaj7)
-let b3 = N C5
 let e1 = piece {(c1, 1, start_time=0); (c3, 47, start_time=2); (bpm 150); (name example_song)}
 let e5 = piece {tracks: (c1, c2); instruments: (1, 47); channels: (0, 1); bpm: 150; name: example_song}
 let s1 = scale (C5 major; interval=[1,2,1,1,2,1,2])
