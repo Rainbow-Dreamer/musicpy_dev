@@ -493,9 +493,12 @@ def define_sampler_parser(lines, i, variable_name, current=None):
     del lines[current_definition_range[0] + 1:current_definition_range[1] + 1]
 
 
-def parse(text=None, file=None):
+def parse(text=None, file=None, debug=0):
     result = parser(text, file)
-    exec(result, globals(), globals())
+    if debug > 0:
+        print(result)
+    if debug == 0 or debug == 2:
+        exec(result, globals(), globals())
 
 
 def interactive_parse():
