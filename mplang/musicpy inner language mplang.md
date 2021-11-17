@@ -104,14 +104,14 @@ end
 current.export(e3)
 ```
 
-### write python code inside mplang (could be multi-line)
+#### write python code inside mplang (could be multi-line)
 ```
 python:
 # some python code
 end
 ```
 
-### write one line of python code inside mplang
+#### write one line of python code inside mplang
 ```
 python # python code
 ```
