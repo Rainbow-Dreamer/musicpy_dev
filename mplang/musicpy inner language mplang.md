@@ -2,7 +2,7 @@
 
 #### some examples of constructing notes, chords and scales
 
-```python
+```
 let c1 = chord Cmaj7
 let c2 = chord [C5, F5, G5, C6]
 let c3 = chord (F5, A5, C6, E6)
@@ -23,7 +23,7 @@ play result
 ### syntax for constructing a piece instance
 #### in this example, a piece instance will be assigned to the variable `e3`, the piece instance will have a name `example_song`, bpm 150, and the tracks specified inside the definition body
 
-```python
+```
 define piece e3
 name: example song
 bpm: 150
@@ -36,7 +36,7 @@ end
 
 
 #### or specify tracks information separately
-```python
+```
 define piece e3
 name: example song
 bpm: 150
@@ -53,23 +53,23 @@ end
 ### the order of the keywords in the definition body of piece could be changed
 
 #### get the first track of the piece instance e3
-```python
+```
 let t1 = e3[1]
 ```
 
 #### get the attributes of the track instance
-```python
+```
 let t1_channel = t1.channel
 ```
 
 #### use functions of the chord instance
-```python
+```
 let e5 = c1 + 2
 let e5 = c1.reverse()
 ```
 
 #### define drum beats
-```python
+```
 # this syntax must be in one line
 let d1 = drum 0,1,2,1,{2}
 
@@ -104,3 +104,14 @@ end
 current.export(e3)
 ```
 
+### write python code inside mplang (could be multi-line)
+```
+python:
+# some python code
+end
+```
+
+### write one line of python code inside mplang
+```
+python # python code
+```
