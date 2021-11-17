@@ -4,7 +4,7 @@
 
 #### The suggested file extension of mplang is `.mp`
 
-### some examples of constructing notes, chords and scales
+### some examples of constructing notes, chords, scales and pieces
 ```
 let n1 = note C5
 let n2 = note C5 (channel 3)
