@@ -1,12 +1,19 @@
 # musicpy_dev
 This is a repository holding musicpy develop thoughts and some other related stuffs.
 
+### Date: 2021-11-17
+
+Adding the interactive parsing functionality to the interpreter. Now you can use mplang interactively using the interpreter.
+
 ### Date: 2021-11-16
+
 I have already finished the implementation of some of the most basic syntax parsing functionality of the interpreter for this inner language.
 
 By the way, I think this inner language of musicpy should be called `mplang`.
 
 Well, as the implementation of the syntax abstraction in the interpreter, there will be some special syntax restriction in some specific cases, but not that much. The syntax of mplang will look very different from python, and I have decided to make a special syntax that allows users to write straight python codes inside mplang, which I will talk about in the wiki when the design of this inner language is finished.
+
+Currently, the interpreter already supports parsing a whole text file and a string written in mplang.
 
 If you want to take a look at the interpreter, you can see current progress [here](https://github.com/Rainbow-Dreamer/musicpy_dev/blob/main/mplang/mplang_parser/mplang_parser.py).
 
