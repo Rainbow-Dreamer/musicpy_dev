@@ -23,6 +23,8 @@ mplang -t "play C('Cmaj7')"
 mplang -w "examples.mp"
 ```
 
+The official mplang documentation will come out soon.
+
 ### Date: 2021-11-17
 
 Adding the interactive parsing functionality to the interpreter. Now you can use mplang interactively using the interpreter.
