@@ -1,6 +1,28 @@
 # musicpy_dev
 This is a repository holding musicpy develop thoughts and some other related stuffs.
 
+### Date: 2021-11-18
+Trying to compile the mplang interpreter into a standalone executable.
+
+You could download `mplang.exe` from the release page.
+
+This is the first version of standalone mplang interpreter, you can use it without python installed, it has a interactive shell when you open it, and it could execute `.mp` files with arguments, and there are some optional flags.
+
+For example, run `mplang` in shell will enter the interactive shell, run `mplang filename` will execute a text file written in mplang.
+
+Optional flags:
+
+`-t`: the filename will be execute as text straightly to the interpreter
+
+`-w`: after interpretation and execution, the interpreter will wait until user press enter to close, this is very useful if you have any play functions in the file, if you not include this flag, it is very possible that the sound won't come out
+
+Examples of the usage of mplang interpreter executable:
+```
+mplang "examples.mp"
+mplang -t "play C('Cmaj7')"
+mplang -w "examples.mp"
+```
+
 ### Date: 2021-11-17
 
 Adding the interactive parsing functionality to the interpreter. Now you can use mplang interactively using the interpreter.
