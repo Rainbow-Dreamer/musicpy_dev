@@ -2,22 +2,29 @@
 
 ### This is the official documentation of `mplang`, the inner language of musicpy.
 
-[TOC]
-
-
-
 ## Contents
 
 - [Introduction](#Introduction)
-- [Suggested file naming](#Suggested file naming)
-- [Usage of mplang interpreter executable](#Usage of mplang interpreter executable)
-- [The syntax of mplang](#The syntax of mplang)
-  - [Construct musicpy data structures using `let` keyword](#Construct musicpy data structures using `let` keyword)
+- [Suggested file naming](#Suggested-file-naming)
+- [Usage of mplang interpreter executable](#Usage-of-mplang-interpreter-executable)
+- [The syntax of mplang](#The-syntax-of-mplang)
+  - [Construct musicpy data structures using `let` keyword](#Construct-musicpy-data-structures-using-`let`-keyword)
     - [note](#note)
     - [chord](#chord)
     - [scale](#scale)
     - [piece](#piece)
     - [drum](#drum)
+  - [Write python code inside mplang](#Write-python-code-inside-mplang)
+    - [write one line of python code inside mplang](#write-one-line-of-python-code-inside-mplang)
+	- [write multi-line python code inside mplang](#write-multi--line-python-code-inside-mplang)
+  - [Variable assignments](#Variable-assignments)
+  - [Construct musicpy data structures using `define` keyword](#Construct-musicpy-data-structures-using-`define`-keyword)
+    - [piece](#piece-2)
+    - [drum](#drum-2)
+    - [sampler](#sampler)
+  - [Using functions](#Using-functions)
+  - [Import python modules](#Import-python-modules)
+  - [Comments in mplang](#Comments-in-mplang)
 
 ## Introduction
 
@@ -285,7 +292,7 @@ end
 ```
 
 #### sampler
-
+Note that for channels, you must start with `channel number` to construct each channel of the sampler, the index is 1-based.
 ```
 define sampler current
 num: 3
