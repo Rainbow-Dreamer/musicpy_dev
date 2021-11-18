@@ -39,7 +39,7 @@ Well, as the implementation of the syntax abstraction in the interpreter, there 
 
 Currently, the interpreter already supports parsing a whole text file and a string written in mplang.
 
-If you want to take a look at the interpreter, you can see current progress [here](https://github.com/Rainbow-Dreamer/musicpy_dev/blob/main/mplang/mplang_parser/mplang_parser.py).
+If you want to take a look at the interpreter, you can see current progress [here](https://github.com/Rainbow-Dreamer/musicpy_dev/blob/main/mplang/mplang_parser/mplang.py).
 
 ### Date: 2021-11-15
 I do want to implement an inner language of musicpy that uses a totally independent syntax to represent data structures of musicpy and other functionality these days.
