@@ -53,8 +53,10 @@ def get_part_in_parenthesis(lines, inds, ind):
     return lines[current_ind[0] + 1:current_ind[1]]
 
 
-def parse_set_attribute(lines, str_attributes=None):
-    current_attributes = [r.strip().split(' ', 1) for r in lines.split(';')]
+def parse_set_attribute(lines, str_attributes=None, split_symbol=';'):
+    current_attributes = [
+        r.strip().split(' ', 1) for r in lines.split(split_symbol)
+    ]
     if str_attributes:
         for each in current_attributes:
             if each[0] in str_attributes:
@@ -337,7 +339,9 @@ def make_piece_parser(lines=None,
                     current_piece_dict[
                         each_attribute_name] = each_attribute_value
             else:
-                piece_tracks.append(f'track{each}')
+                piece_tracks.append(
+                    f'track({parse_set_attribute(each[1:-1], track_attributes_str, split_symbol=",")})'
+                )
         elif ':' in each:
             each_attribute_name, each_attribute_value = each.split(':', 1)
             each_attribute_name = each_attribute_name.strip()
@@ -361,6 +365,7 @@ def make_piece_parser(lines=None,
             ["=".join(each) for each in current_piece_dict.items()])
         result = f'piece({result_attributes})'
     result += other_part
+    result = f'{variable_name} = {result}'
     if current:
         return result
     else:

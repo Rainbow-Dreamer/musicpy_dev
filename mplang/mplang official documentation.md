@@ -2,11 +2,22 @@
 
 ### This is the official documentation of `mplang`, the inner language of musicpy.
 
+[TOC]
+
+
+
 ## Contents
 
 - [Introduction](#Introduction)
 - [Suggested file naming](#Suggested file naming)
 - [Usage of mplang interpreter executable](#Usage of mplang interpreter executable)
+- [The syntax of mplang](#The syntax of mplang)
+  - [Construct musicpy data structures using `let` keyword](#Construct musicpy data structures using `let` keyword)
+    - [note](#note)
+    - [chord](#chord)
+    - [scale](#scale)
+    - [piece](#piece)
+    - [drum](#drum)
 
 ## Introduction
 
@@ -40,9 +51,9 @@ mplang -w "examples.mp"
 
 ## The syntax of mplang
 
-### Construct basic musicpy data structures
+### Construct musicpy data structures using `let` keyword
 
-Use `let` keyword with predefined tokens to construct basic musicpy data structures such as note, chord, scale, piece and drum. Normal variable assignment also must start with `let` keyword.
+Use `let` keyword with predefined tokens to construct musicpy data structures such as note, chord, scale, piece and drum. Normal variable assignment also must start with `let` keyword.
 
 Here is a list of predefined tokens for constructing musicpy data structures:
 
@@ -56,19 +67,33 @@ There are different syntax for each basic musicpy data structures.
 
 To construct a note, the syntax is
 
-`let variable_name = note note_name`
+```
+let variable_name = note note_name
+```
 
-For example, `let n1 = note C5`
+For example,
+
+```
+let n1 = note C5
+```
 
 If you want to set other attributes of the note, use a pair of parenthesis after it, and put the attribute assignment inside the parenthesis separated by `;`, the syntax of attribute assignment is
 
-`attribute_name attribute_value`
+```
+attribute_name attribute_value
+```
 
-For example,  `let n1 = chord C5 (channel 3; volume 20)`
+For example,
+
+```
+let n1 = chord C5 (channel 3; volume 20)
+```
 
 If you want to add some other operations or functions after the note, use a pair of curly brackets after it, and put what you want to add inside the curly brackets. For example,
 
-`let n1 = chord C5 (channel 3; volume 20) {+ 2}`
+```
+let n1 = chord C5 (channel 3; volume 20) {+ 2}
+```
 
 #### chord
 
@@ -76,60 +101,153 @@ There are 2 ways to construct a chord, one is to write a chord type, the another
 
 To construct a chord using a chord type, the syntax is
 
-`let variable_name = chord chord_type`
+```
+let variable_name = chord chord_type
+```
 
 Note that if there cannot be any spaces in the chord type. For example,
 
-`let c1 = chord Cmaj7` 
+```
+let c1 = chord Cmaj7
 
-`let c2 = chord C7,b9`
+let c2 = chord C7,b9
+```
 
 To construct a chord using a collection of notes, the syntax is
 
-`let variable_name = chord (n1, n2, n3, ...)`
+```
+let variable_name = chord (n1, n2, n3, ...)
+```
 
-For example, `let c1 = chord (F5, A5, C6, E6)`
+For example,
+
+```
+let c1 = chord (F5, A5, C6, E6)
+```
 
 The advanced syntax to specify each note's duration and interval is supported, for example,
 
-`let c1 = chord (F5[.8;.8], A5[.16;.16], C6[.8;.8], E6[.16;.16])`
+```
+let c1 = chord (F5[.8;.8], A5[.16;.16], C6[.8;.8], E6[.16;.16])
+```
 
 To set other attributes and add some other operations or functions after the chord, the syntax could refer to note. For example,
 
-`let c1 = chord Cmaj7 (duration 1/8; interval 1/8) {+ 2}`
-
-`let c1 = chord (F5, A5, C6, E6) (duration 1/8; interval 1/8) {+ 2}`
+```
+let c1 = chord Cmaj7 (duration 1/8; interval 1/8) {+ 2}
+let c1 = chord (F5, A5, C6, E6) (duration 1/8; interval 1/8) {+ 2}
+```
 
 #### scale
 
-
+To construct a scale, the syntax is `let variable_name = scale (start_note mode)`, the parenthesis is required. If you want to add other attributes, use `;` to separate attribute assignments, for example
 
 ```
-let n1 = note C5
-let n2 = note C5 (channel 3)
-let n3 = note C5 (channel 3; volume 20)
-
-let c1 = chord Cmaj7
-let c2 = chord (F5, A5, C6, E6)
-
-let result = c1 | c2
-
 let s1 = scale (C5 major)
-let s2 = scale (C5 major; interval=[1,2,1,1,2,1,2])
 
-let e1 = piece {(c1, 1, start_time=0); (c3, 47, start_time=2); (bpm 150); (name example_song)}
-let e2 = piece {tracks: (c1, c2); instruments: (1, 47); channels: (0, 1); bpm: 150; name: example_song}
+let s1 = scale (C5 custom_mode; interval [1,2,1,1,2,1,2])
 ```
 
-#### variable assignment in mplang must using `let` keyword, or switch to python mode to write straight python assignment
+#### piece
+
+There are 2 ways to construct a piece in musicpy, which are using `piece` constructor and `build` function.
+
+This corresponds to 2 ways of writing a piece in mplang.
+
+If you want to set each attribute when constructing a piece, the syntax is
+
 ```
-let c1 = C('Cmaj7')
-let c2 = chord('C5, F5, G5, C6')
+let variable_name = piece {attribute_name1: attribute_value1; attribute_name2: attribute_value2; ...}
+```
+
+For example,
+
+```
+let e1 = piece {tracks: (c1, c2); instruments: (1, 47); channels: (0, 1); bpm: 150; name: example_song}
+```
+
+If you want to use tracks to construct a piece, the syntax is
+
+```
+let variable_name = piece {(track1_attribute_name1 track1_attribute_value1, track1_attribute_name2 track1_attribute_value2, ...); (track2_attribute_name1 track2_attribute_value1, track2_attribute_name2 track2_attribute_value2, ...); ...; (other_attribute_name other_attribute_value)}
+```
+
+For example,
+
+```
+let e1 = piece {(c1, 1, start_time 0); (c2, 47, start_time 2); (bpm 150); (name example_song)}
+```
+
+#### drum
+
+To construct a drum beat, the syntax is
+
+```
+let variable_name = drum (pattern)
+```
+
+To add other attributes and other operations and functions after it, you can refer to note.
+
+For example,
+
+```
+let d1 = drum (0,1,2,1,{2})
+```
+
+### Write python code inside mplang
+
+You can write python code inside mplang, for one line and multi lines of python code, there are different syntax.
+
+#### write one line of python code inside mplang
+
+You can start with `python` with a space and then write python code.
+
+```
+python some python code
+```
+
+#### write multi-line python code inside mplang
+
+You can use `python:` at one line and then write python code under it, enclosing with `end`.
+
+```
+python:
+some python code
+end
+```
+
+### Variable assignments
+
+Variable assignment in mplang requires `let` keyword, or you can switch to python mode to write straight python assignment. For example,
+
+```
 let result = c1 | c2
 ```
 
-### syntax for constructing a piece instance
-#### in this example, a piece instance will be assigned to the variable `e3`, the piece instance will have a name `example_song`, bpm 150, and the tracks specified inside the definition body
+### Construct musicpy data structures using `define` keyword
+
+You can also use `define` keyword to construct musicpy data structures, which provides a more readable syntax, but this currently only works for a few musicpy data structures, which are piece, drum and sampler.
+
+The general form of this syntax is
+
+```
+define type variable_name
+attribute_name1: attribute_value1
+attribute_name2: attribute_value2
+...
+end
+```
+
+The syntax using `define` keyword slightly varies for different types, but in general they follow this form.
+
+The order of the keywords in the definition body of piece could be changed.
+
+There could be empty lines inside the definition body.
+
+#### piece
+
+In this example, a piece instance will be assigned to the variable `e3`, the piece instance will have a name `example_song`, bpm 150, and the tracks specified inside the definition body.
+
 ```
 define piece e3
 name: example song
@@ -140,7 +258,8 @@ c3, instrument 47, start_time 2, channel 1, track_name harp
 end
 ```
 
-#### or specify tracks information separately
+Alternatively, you can specify tracks information separately by attributes.
+
 ```
 define piece e3
 name: example song
@@ -153,11 +272,35 @@ track_names: piano, harp
 end
 ```
 
-#### (the order of the keywords in the definition body of piece could be changed)
+#### drum
+
+```
+define drum d1
+pattern:
+0, 1, 2, 1, {2},
+0, 0, 2, 1, {2},
+0, 1[.16;.], 0[.16;.], 2, 1,
+0, 1, 2, 1
+end
+```
+
+#### sampler
+
+```
+define sampler current
+num: 3
+name: example song
+bpm: 150
+channels:
+channel 1, name piano, sound "celeste.sf2"
+channel 2, name harp, sound "celeste.sf2"
+end
+```
 
 ### Using functions
 
-#### Using functions in mplang is like using python functions without the parenthesis
+Using functions in mplang is like using python functions without the parenthesis.
+
 ```
 write result, name='test.mid'
 play result
@@ -170,67 +313,7 @@ write(result,name='test.mid')
 play(result)
 ```
 
-#### get the first track of the piece instance e3
-```
-let t1 = e3[1]
-```
-
-#### get the attributes of the track instance
-```
-let t1_channel = t1.channel
-```
-
-#### use functions of the chord instance
-```
-let e5 = c1 + 2
-let e5 = c1.reverse()
-```
-
-#### define drum beats
-```
-# this syntax must be in one line
-let d1 = drum 0,1,2,1,{2}
-
-# this syntax supports multiple lines
-define drum d1
-mapping: ... (if use default mappings then you do not need to write this)
-pattern:
-0, 1, 2, 1, {2},
-0, 0, 2, 1, {2},
-0, 1[.16;.], 0[.16;.], 2, 1,
-0, 1, 2, 1
-end
-```
-
-#### (there could be empty lines inside the definition body)
-
-#### using the sampler module
-```
-define sampler current
-num: 3
-name: example song
-bpm: 150
-channels:
-channel 1, name piano, sound "celeste.sf2"
-channel 2, name harp, sound "celeste.sf2"
-end
-
-current.export(e3)
-```
-
-#### write python code inside mplang (could be multi-line)
-```
-python:
-# some python code
-end
-```
-
-#### write one line of python code inside mplang
-```
-python # python code
-```
-
-#### import python modules
+### Import python modules
 
 Normal import statement in python will work, and an additional syntax `use module` which is equivalent to `from module import *`
 
@@ -238,4 +321,8 @@ Normal import statement in python will work, and an additional syntax `use modul
 import module
 use module
 ```
+
+### Comments in mplang
+
+The comments in mplang is the same as python, using `#` at the start for comments. For multi-line comments you will need to create a python block and then write multi-line comments there using python syntax.
 
