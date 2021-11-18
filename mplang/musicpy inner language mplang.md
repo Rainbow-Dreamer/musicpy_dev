@@ -106,7 +106,6 @@ end
 
 #### using the sampler module
 ```
-use musicpy.sampler
 define sampler current
 num: 3
 name: example song
@@ -130,3 +129,13 @@ end
 ```
 python # python code
 ```
+
+#### import python modules
+
+Normal import statement in python will work, and an additional syntax `use module` which is equivalent to `from module import *`
+
+```
+import module
+use module
+```
+
