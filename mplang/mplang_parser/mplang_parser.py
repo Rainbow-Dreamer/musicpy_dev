@@ -1,5 +1,6 @@
 from musicpy import *
 import traceback
+import sys
 
 piece_attributes = [
     'tracks', 'instruments_list', 'bpm', 'start_times', 'track_names',
@@ -17,6 +18,7 @@ define_state = False
 define_variable = None
 define_body = []
 python_state = False
+special_argv = ['-t', '-w']
 
 
 def parser(text=None, file=None):
@@ -148,14 +150,19 @@ def special_token_parser(start_token,
             return current
 
 
-def python_code_parser(lines, i):
+def python_code_parser(lines, i, current=None):
     ind = len(lines)
     for j in range(i, ind):
         if lines[j].strip() == 'end':
             ind = j
             break
-    lines[i] = '\n'.join(lines[i + 1:ind])
-    del lines[i + 1:ind + 1]
+    if current:
+        result = '\n'.join(lines[i:ind])
+        return result
+    else:
+        result = '\n'.join(lines[i + 1:ind])
+        lines[i] = result
+        del lines[i + 1:ind + 1]
 
 
 def make_chord_parser(lines=None,
@@ -512,7 +519,11 @@ def interactive_parse():
             try:
                 if python_state:
                     if current.strip() == 'end':
+                        current = python_code_parser(define_body, 0, current)
                         python_state = False
+                        define_body.clear()
+                    else:
+                        define_body.append(current)
                         current = ''
                 elif define_state:
                     if current.strip() == 'end':
