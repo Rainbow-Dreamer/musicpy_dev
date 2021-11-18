@@ -116,3 +116,5 @@ dmypy.json
 mplang_test.py
 *.mp
 mplang.exe
+pyinstaller mplang.txt
+extra-hooks

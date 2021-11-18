@@ -16,11 +16,51 @@ track_attributes = [
 track_attributes_str = ['track_name', 'name']
 scale_attributes_str = ['start', 'mode', 'name']
 sampler_attributes = ['name', 'num', 'bpm']
+drum_attributes_str = ['name']
 define_state = False
 define_variable = None
 define_body = []
 python_state = False
 special_argv = ['-t', '-w']
+
+
+def find_parenthesis(lines, left='(', right=')'):
+    result = []
+    current_pair = []
+    find_left = False
+    omit_left = False
+    for i in range(len(lines)):
+        current = lines[i]
+        if current == left:
+            if not find_left:
+                current_pair.append(i)
+                find_left = True
+            else:
+                omit_left = True
+        elif current == right and find_left:
+            if not omit_left:
+                current_pair.append(i)
+                result.append(current_pair)
+                current_pair = []
+                find_left = False
+            else:
+                omit_left = False
+    return result
+
+
+def get_part_in_parenthesis(lines, inds, ind):
+    current_ind = inds[ind]
+    return lines[current_ind[0] + 1:current_ind[1]]
+
+
+def parse_set_attribute(lines, str_attributes=None):
+    current_attributes = [r.strip().split(' ', 1) for r in lines.split(';')]
+    if str_attributes:
+        for each in current_attributes:
+            if each[0] in str_attributes:
+                each[1] = f'"{each[1]}"'
+    result = ','.join(['='.join(i) for i in current_attributes])
+    return result
 
 
 def parser(text=None, file=None):
@@ -169,12 +209,35 @@ def make_chord_parser(lines=None,
                       current_data=None,
                       i=None,
                       current=None):
-    if current_data.startswith('(') and ')' in current_data:
-        right_bracket_ind = current_data.index(')')
-        result = f'{variable_name} = chord("{current_data[1:right_bracket_ind]}"){"".join(current_data[right_bracket_ind+1:])}'
+    config_part, other_part = '', ''
+    config_inds = find_parenthesis(current_data)
+    other_inds = find_parenthesis(current_data, '{', '}')
+    start_ind = len(current_data)
+    chord_mode = 0
+    if config_inds:
+        has_config = True
+        current_config_ind = 0
+        first_config_ind = config_inds[0][0]
+        if first_config_ind == 0:
+            chord_mode = 1
+            if len(config_inds) > 1:
+                first_config_ind = config_inds[1][0]
+                current_config_ind = 1
+            else:
+                has_config = False
+        if has_config and not (other_inds
+                               and first_config_ind > other_inds[0][0]):
+            start_ind = first_config_ind
+            config_part = f', {parse_set_attribute(get_part_in_parenthesis(current_data, config_inds, current_config_ind))}'
+    if other_inds:
+        start_ind = min(other_inds[0][0], start_ind)
+        other_part = get_part_in_parenthesis(current_data, other_inds, 0)
+    if chord_mode == 0:
+        chord_part = current_data[:start_ind].strip()
+        result = f'{variable_name} = C("{chord_part}"{config_part}) {other_part}'
     else:
-        current_data_split = current_data.split(' ', 1)
-        result = f'{variable_name} = C("{current_data_split[0]}"){"".join(current_data_split[1:])}'
+        chord_part = get_part_in_parenthesis(current_data, config_inds, 0)
+        result = f'{variable_name} = C("{chord_part}"{config_part}) {other_part}'
     if current:
         return result
     else:
@@ -186,17 +249,20 @@ def make_note_parser(lines=None,
                      current_data=None,
                      i=None,
                      current=None):
-    current_data_split = current_data.split(' ', 1)
-    current_data_config_part = "".join(current_data_split[1:]).strip()
-    if current_data_config_part.startswith(
-            '(') and current_data_config_part.endswith(')'):
-        current_data_config_part = ','.join([
-            '='.join(r.strip().split(' '))
-            for r in current_data_config_part.split(';')
-        ])
-        result = f'{variable_name} = N("{current_data_split[0]}").reset{current_data_config_part}'
-    else:
-        result = f'{variable_name} = N("{current_data_split[0]}"){current_data_config_part}'
+    config_part, other_part = '', ''
+    config_inds = find_parenthesis(current_data)
+    other_inds = find_parenthesis(current_data, '{', '}')
+    start_ind = len(current_data)
+    if config_inds:
+        first_config_ind = config_inds[0][0]
+        if not (other_inds and first_config_ind > other_inds[0][0]):
+            start_ind = first_config_ind
+            config_part = f', {parse_set_attribute(get_part_in_parenthesis(current_data, config_inds, 0))}'
+    if other_inds:
+        start_ind = min(other_inds[0][0], start_ind)
+        other_part = get_part_in_parenthesis(current_data, other_inds, 0)
+    note_name = current_data[:start_ind].strip()
+    result = f'{variable_name} = N("{note_name}"{config_part}) {other_part}'
     if current:
         return result
     else:
@@ -224,8 +290,8 @@ def make_scale_parser(lines=None,
             current_scale_dict['mode'] = f'"{current_scale_settings[1]}"'
     for each_scale_attribute in current_scale_attributes[
             current_scale_offset:]:
-        each_scale_attribute_name, each_scale_attribute_value = each_scale_attribute.split(
-            '=')
+        each_scale_attribute_name, each_scale_attribute_value = each_scale_attribute.strip(
+        ).split(' ', 1)
         each_scale_attribute_name = each_scale_attribute_name.strip()
         if each_scale_attribute_name in scale_attributes_str:
             each_scale_attribute_value = f'"{each_scale_attribute_value}"'
@@ -247,13 +313,17 @@ def make_piece_parser(lines=None,
                       current_data=None,
                       i=None,
                       current=None):
-    if not (current_data.startswith('{') and current_data.endswith('}')):
+    bracket_inds = find_parenthesis(current_data, '{', '}')
+    if not bracket_inds:
         raise SyntaxError(
             'using `let` to construct a piece instance must start with `{` and end with `}`, for example `piece {tracks: (c1, c2)}`'
         )
     current_piece_dict = {}
     piece_tracks = []
-    current_piece_attributes = current_data[1:-1].split(';')
+    current_piece_attributes = get_part_in_parenthesis(current_data,
+                                                       bracket_inds,
+                                                       0).split(';')
+    other_part = current_data[bracket_inds[0][1] + 1:]
     for each in current_piece_attributes:
         each = each.strip()
         if each.startswith('(') and each.endswith(')'):
@@ -290,6 +360,7 @@ def make_piece_parser(lines=None,
         result_attributes = ",".join(
             ["=".join(each) for each in current_piece_dict.items()])
         result = f'piece({result_attributes})'
+    result += other_part
     if current:
         return result
     else:
@@ -301,7 +372,20 @@ def make_drum_parser(lines=None,
                      current_data=None,
                      i=None,
                      current=None):
-    result = f'{variable_name} = drum("{current_data}")'
+    config_part, other_part = '', ''
+    config_inds = find_parenthesis(current_data)
+    if not config_inds:
+        raise SyntaxError(
+            'using `let` to construct a drum instance must start with `(` and end with `)`, for example `drum (0,1,2,1)`'
+        )
+    other_inds = find_parenthesis(current_data, '{', '}')
+    drum_part = get_part_in_parenthesis(current_data, config_inds, 0)
+    if len(config_inds) > 1:
+        config_part = f', {parse_set_attribute(get_part_in_parenthesis(current_data, config_inds, 1), drum_attributes_str)}'
+    if other_inds:
+        if other_inds[-1][0] > config_inds[0][1]:
+            other_part = get_part_in_parenthesis(current_data, other_inds, -1)
+    result = f'{variable_name} = drum("{drum_part}"{config_part}) {other_part}'
     if current:
         return result
     else:
@@ -401,8 +485,8 @@ def sampler_channel_parser(lines, current_definition_range, each,
                            current_channels):
     channel_counter = 1
     for i in range(each + 1, current_definition_range[1]):
-        current = lines[i]
-        if current:
+        current = lines[i].strip()
+        if current.startswith('channel'):
             current_channel_info = [channel_counter, None, None]
             current_attributes = current.split(',')
             for each in current_attributes:
@@ -415,7 +499,7 @@ def sampler_channel_parser(lines, current_definition_range, each,
                     current_channel_info[2] = current_value
             current_channels.append(current_channel_info)
             channel_counter += 1
-        if ':' in current:
+        elif ':' in current:
             break
 
 

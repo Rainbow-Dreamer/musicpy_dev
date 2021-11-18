@@ -54,11 +54,55 @@ There are different syntax for each basic musicpy data structures.
 
 #### note
 
-To construct note instances, the syntax is `let variable_name = note note_name`
+To construct a note, the syntax is
+
+`let variable_name = note note_name`
 
 For example, `let n1 = note C5`
 
-If you want to set other attributes of the note instance, 
+If you want to set other attributes of the note, use a pair of parenthesis after it, and put the attribute assignment inside the parenthesis separated by `;`, the syntax of attribute assignment is
+
+`attribute_name attribute_value`
+
+For example,  `let n1 = chord C5 (channel 3; volume 20)`
+
+If you want to add some other operations or functions after the note, use a pair of curly brackets after it, and put what you want to add inside the curly brackets. For example,
+
+`let n1 = chord C5 (channel 3; volume 20) {+ 2}`
+
+#### chord
+
+There are 2 ways to construct a chord, one is to write a chord type, the another one is to write a collection of notes.
+
+To construct a chord using a chord type, the syntax is
+
+`let variable_name = chord chord_type`
+
+Note that if there cannot be any spaces in the chord type. For example,
+
+`let c1 = chord Cmaj7` 
+
+`let c2 = chord C7,b9`
+
+To construct a chord using a collection of notes, the syntax is
+
+`let variable_name = chord (n1, n2, n3, ...)`
+
+For example, `let c1 = chord (F5, A5, C6, E6)`
+
+The advanced syntax to specify each note's duration and interval is supported, for example,
+
+`let c1 = chord (F5[.8;.8], A5[.16;.16], C6[.8;.8], E6[.16;.16])`
+
+To set other attributes and add some other operations or functions after the chord, the syntax could refer to note. For example,
+
+`let c1 = chord Cmaj7 (duration 1/8; interval 1/8) {+ 2}`
+
+`let c1 = chord (F5, A5, C6, E6) (duration 1/8; interval 1/8) {+ 2}`
+
+#### scale
+
+
 
 ```
 let n1 = note C5
