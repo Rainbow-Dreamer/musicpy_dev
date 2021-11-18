@@ -21,11 +21,11 @@ let e1 = piece {(c1, 1, start_time=0); (c3, 47, start_time=2); (bpm 150); (name 
 let e2 = piece {tracks: (c1, c2); instruments: (1, 47); channels: (0, 1); bpm: 150; name: example_song}
 ```
 
-#### Normal assignment without `let` keyword will work as straight python code, but the musicpy data structure token like `chord`, `note` won't be recognized in this case.
+#### variable assignment in mplang must using `let` keyword, or switch to python mode to write straight python assignment
 ```
-c1 = C('Cmaj7')
-c2 = chord('C5, F5, G5, C6')
-result = c1 | c2
+let c1 = C('Cmaj7')
+let c2 = chord('C5, F5, G5, C6')
+let result = c1 | c2
 ```
 
 ### syntax for constructing a piece instance

@@ -1,4 +1,5 @@
 from musicpy import *
+from musicpy.sampler import *
 import traceback
 import sys
 
@@ -137,10 +138,7 @@ def special_token_parser(start_token,
         elif start_token == 'python':
             result = remain_part
         else:
-            if '=' in remain_part:
-                result = f'{start_token} {remain_part}'
-            else:
-                result = f'{start_token}({remain_part})'
+            result = f'{start_token}({remain_part})'
         if current:
             return result
         else:
