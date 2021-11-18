@@ -6,7 +6,7 @@ Trying to compile the mplang interpreter into a standalone executable.
 
 You could download `mplang.exe` from the release page.
 
-This is the first version of the standalone mplang interpreter, you can use it without python installed, it has a interactive shell when you open it, and it could execute `.mp` files with arguments, and there are some optional flags.
+This is the first version of the standalone mplang interpreter, you can use it without python installed, it has an interactive shell when you open it, and it could execute `.mp` files with arguments, and there are some optional flags.
 
 For example, run `mplang` in shell will enter the interactive shell, run `mplang filename` will execute a text file written in mplang.
 

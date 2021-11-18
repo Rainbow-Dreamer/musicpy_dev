@@ -191,7 +191,8 @@ def make_note_parser(lines=None,
     if current_data_config_part.startswith(
             '(') and current_data_config_part.endswith(')'):
         current_data_config_part = ','.join([
-            '='.join(r.split(' ')) for r in current_data_config_part.split(',')
+            '='.join(r.strip().split(' '))
+            for r in current_data_config_part.split(';')
         ])
         result = f'{variable_name} = N("{current_data_split[0]}").reset{current_data_config_part}'
     else:
