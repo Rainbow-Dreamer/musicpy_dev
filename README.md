@@ -1,6 +1,9 @@
 # musicpy_dev
 This is a repository holding musicpy develop thoughts and some other related stuffs.
 
+### Date: 2021-11-19
+The official mplang documentation is already, you can look at it [here](https://github.com/Rainbow-Dreamer/musicpy_dev/blob/main/mplang/mplang%20official%20documentation.md)
+
 ### Date: 2021-11-18
 Trying to compile the mplang interpreter into a standalone executable.
 
