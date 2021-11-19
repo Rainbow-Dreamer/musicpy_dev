@@ -81,7 +81,7 @@ note, chord, scale, piece, drum
 
 There are different syntax for each basic musicpy data structures.
 
-#### note
+### note
 
 To construct a note, the syntax is
 
@@ -113,7 +113,7 @@ If you want to add some other operations or functions after the note, use a pair
 let n1 = chord C5 (channel 3; volume 20) {+ 2}
 ```
 
-#### chord
+### chord
 
 There are 2 ways to construct a chord, one is to write a chord type, the another one is to write a collection of notes.
 
@@ -156,7 +156,7 @@ let c1 = chord Cmaj7 (duration 1/8; interval 1/8) {+ 2}
 let c1 = chord (F5, A5, C6, E6) (duration 1/8; interval 1/8) {+ 2}
 ```
 
-#### scale
+### scale
 
 To construct a scale, the syntax is `let variable_name = scale (start_note mode)`, the parenthesis is required. If you want to add other attributes, use `;` to separate attribute assignments, for example
 
@@ -166,7 +166,7 @@ let s1 = scale (C5 major)
 let s1 = scale (C5 custom_mode; interval [1,2,1,1,2,1,2])
 ```
 
-#### piece
+### piece
 
 There are 2 ways to construct a piece in musicpy, which are using `piece` constructor and `build` function.
 
@@ -196,7 +196,7 @@ For example,
 let e1 = piece {(c1, 1, start_time 0); (c2, 47, start_time 2); (bpm 150); (name example_song)}
 ```
 
-#### drum
+### drum
 
 To construct a drum beat, the syntax is
 
@@ -218,7 +218,7 @@ let d1 = drum (0,1,2,1,{2})
 
 You can write python code inside mplang, for one line and multi lines of python code, there are different syntax.
 
-#### write one line of python code inside mplang
+### write one line of python code inside mplang
 
 You can start with `python` with a space and then write python code.
 
@@ -226,7 +226,7 @@ You can start with `python` with a space and then write python code.
 python some python code
 ```
 
-#### write multi-line python code inside mplang
+### write multi-line python code inside mplang
 
 You can use `python:` at one line and then write python code under it, enclosing with `end`.
 
@@ -268,7 +268,7 @@ The order of the keywords in the definition body of piece could be changed.
 
 There could be empty lines inside the definition body.
 
-#### piece
+### piece
 
 In this example, a piece instance will be assigned to the variable `e3`, the piece instance will have a name `example_song`, bpm 150, and the tracks specified inside the definition body.
 
@@ -296,7 +296,7 @@ track_names: piano, harp
 end
 ```
 
-#### drum
+### drum
 
 ```
 define drum d1
@@ -308,7 +308,7 @@ pattern:
 end
 ```
 
-#### sampler
+### sampler
 Note that for channels, you must start with `channel number` to construct each channel of the sampler, the index is 1-based.
 ```
 define sampler current
