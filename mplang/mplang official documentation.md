@@ -2,6 +2,8 @@
 
 ### This is the official documentation of `mplang`, the inner language of musicpy.
 
+
+
 ## Contents
 
 - [Introduction](#Introduction)
@@ -25,14 +27,21 @@
   - [Using functions](#Using-functions)
   - [Import python modules](#Import-python-modules)
   - [Comments in mplang](#Comments-in-mplang)
+- [TODO](#TODO)
+
+
 
 ## Introduction
 
 `mplang` is an inner language of musicpy which could be interpreted to python code, and then be executed with musicpy package. It has a totally independent syntax to represent data structures of musicpy and other functionality. The interpreter of mplang is a standalone executable, which could provide interactive shell and parsing whole mplang file, so you can use mplang without python installed. You can still write python code and execute in mplang using some special syntax which I will talk about in the syntax section.
 
+
+
 ## Suggested file naming
 
 The suggested file extension of mplang is `.mp`
+
+
 
 ## Usage of mplang interpreter executable
 
@@ -55,6 +64,8 @@ mplang "examples.mp"
 mplang -t "play C('Cmaj7')"
 mplang -w "examples.mp"
 ```
+
+
 
 ## The syntax of mplang
 
@@ -201,6 +212,8 @@ For example,
 let d1 = drum (0,1,2,1,{2})
 ```
 
+
+
 ### Write python code inside mplang
 
 You can write python code inside mplang, for one line and multi lines of python code, there are different syntax.
@@ -223,6 +236,8 @@ some python code
 end
 ```
 
+
+
 ### Variable assignments
 
 Variable assignment in mplang requires `let` keyword, or you can switch to python mode to write straight python assignment. For example,
@@ -230,6 +245,8 @@ Variable assignment in mplang requires `let` keyword, or you can switch to pytho
 ```
 let result = c1 | c2
 ```
+
+
 
 ### Construct musicpy data structures using `define` keyword
 
@@ -304,6 +321,8 @@ channel 2, name harp, sound "celeste.sf2"
 end
 ```
 
+
+
 ### Using functions
 
 Using functions in mplang is like using python functions without the parenthesis.
@@ -320,6 +339,8 @@ write(result,name='test.mid')
 play(result)
 ```
 
+
+
 ### Import python modules
 
 Normal import statement in python will work, and an additional syntax `use module` which is equivalent to `from module import *`
@@ -329,7 +350,30 @@ import module
 use module
 ```
 
+
+
 ### Comments in mplang
 
 The comments in mplang is the same as python, using `#` at the start for comments. For multi-line comments you will need to create a python block and then write multi-line comments there using python syntax.
 
+
+
+## TODO
+
+Currently the design of mplang is at its early stage, the syntax is very simple, and the functionality it supports natively is restricted. The data structures and other advanced music theory functions needs to has their own mplang representation.
+
+* Add construct syntax of other musicpy data structures using `let` keyword including track, tempo, pitch_bend, pan, volume, rest, and esi, effect, effect_chain, pitch, sound from sampler module. For the sampler class, I think its construction will be supported only using `define` keyword, like some data structures only support constructing using `let` keyword.
+
+* Add construct syntax of other musicpy data structures using `define` keyword including track, esi, effect, effect_chain.
+
+* Make multiple chords concatenation while each chord is in construct syntax possible, for example,
+
+  ```
+  let c1 = chord Cmaj7 | chord Dmaj7 | chord Emaj7 | chord (F5, A5, C6, E6) | chord Cmaj9
+  ```
+
+  at least `|`, `+`, `&` separators should be supported, and nested parenthesis should be supported. For example,
+
+  ```
+  let c1 = ((chord Cmaj7 | chord Dmaj7) {% 2}) | chord Emaj7 | chord (F5, A5, C6, E6) | chord Cmaj9
+  ```
