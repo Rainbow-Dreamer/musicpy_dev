@@ -123,12 +123,11 @@ To construct a chord using a chord type, the syntax is
 let variable_name = chord chord_type
 ```
 
-Note that if there cannot be any spaces in the chord type. For example,
+For example,
 
 ```
 let c1 = chord Cmaj7
-
-let c2 = chord C7,b9
+let c2 = chord C7, b9
 ```
 
 To construct a chord using a collection of notes, the syntax is
