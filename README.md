@@ -4,8 +4,7 @@ This is a repository holding musicpy develop thoughts and some other related stu
 ### Date: 2021-11-19
 The mplang official documentation is ready, you can look at it [here](https://github.com/Rainbow-Dreamer/musicpy_dev/blob/main/mplang/mplang%20official%20documentation.md).
 
-I just wrote a little music theory function `reverse_piano_keys` using musicpy which converts a piece of music as if it is played on a 88-key piano
-but the piano keys are reversed (the lowest key become the highest key, and so on), which is actually pretty funny, and somewhat interesting (especially when you hear the result).
+I just wrote a little music theory function `reverse_piano_keys` using musicpy which converts a piece of music as if it is played on a 88-key piano but the piano keys are reversed (the lowest key become the highest key, and so on), which is actually pretty funny, and somewhat interesting (especially when you hear the result).
 
 The script could be found [here](https://github.com/Rainbow-Dreamer/musicpy_dev/blob/main/reverse_piano_keys/reverse_piano_keys.py), the usage is in the script file.
 
