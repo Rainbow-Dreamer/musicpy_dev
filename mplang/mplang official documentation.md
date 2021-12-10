@@ -269,7 +269,7 @@ There could be empty lines inside the definition body.
 
 ### piece
 
-In this example, a piece instance will be assigned to the variable `e3`, the piece instance will have a name `example_song`, bpm 150, and the tracks specified inside the definition body.
+In this example, a piece instance will be assigned to the variable `e3`, the piece instance will have a name `example song`, bpm 150, and the tracks specified inside the definition body.
 
 ```
 define piece e3
