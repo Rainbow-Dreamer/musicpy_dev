@@ -8,7 +8,7 @@ just enjoy this little fun function~
 
 Usage:
 # firstly read a MIDI file as a chord instance
-bpm, test_piece, start_time = mp.read(file_path, mode='all', merge=True)
+bpm, test_piece, start_time = mp.read(file_path)
 
 # convert to a new chord instance with reversed piano keys applied
 test_piece_new = reverse_piano_keys(test_piece)
