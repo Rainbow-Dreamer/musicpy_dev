@@ -104,13 +104,13 @@ attribute_name attribute_value
 For example,
 
 ```
-let n1 = chord C5 (channel 3; volume 20)
+let n1 = note C5 (channel 3; volume 20)
 ```
 
 If you want to add some other operations or functions after the note, use a pair of curly brackets after it, and put what you want to add inside the curly brackets. For example,
 
 ```
-let n1 = chord C5 (channel 3; volume 20) {+ 2}
+let n1 = note C5 (channel 3; volume 20) {+ 2}
 ```
 
 ### chord
