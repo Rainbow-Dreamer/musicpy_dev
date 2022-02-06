@@ -1,6 +1,23 @@
 # musicpy_dev
 This is a repository holding musicpy develop thoughts and some other related stuffs.
 
+### Date: 2022-02-06
+Because musicpy is updated very frequently, so each time it updates, the mplang executable is not up-to-date, I personally don't have that much time to compile for a new executable each time I update musicpy, so you can try to compile a mplang executable by yourself. Here are the steps.
+
+Firstly, be sure to install python >= 3.7.
+
+Then, for python libraries you need to pip install: pyinstaller, musicpy, sf2_loader.
+
+Then, download this repository by clicking [here](https://github.com/Rainbow-Dreamer/musicpy_dev/archive/refs/heads/main.zip).
+
+Then, go to the directory `mplang/mplang_parser`.
+
+Open the python file `extra-hooks/hook-sf2_loader.py` in a text editor or IDE, change the python installation path header for the sf2_loader data file path to match your personal python installation path.
+
+Then, open the terminal, copy and paste what is in the text file `pyinstaller mplang.txt` to the terminal, and run to compile the mplang executable. The result executable will be in the `dist` folder.
+
+The mplang executable at the release page will not be updated from now.
+
 ### Date: 2021-11-19
 The mplang official documentation is ready, you can look at it [here](https://github.com/Rainbow-Dreamer/musicpy_dev/blob/main/mplang/mplang%20official%20documentation.md).
 
