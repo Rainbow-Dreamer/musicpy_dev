@@ -16,7 +16,7 @@ Open the python file `extra-hooks/hook-sf2_loader.py` in a text editor or IDE, c
 
 Then, open the terminal, copy and paste what is in the text file `pyinstaller mplang.txt` to the terminal, and run to compile the mplang executable. The result executable will be in the `dist` folder.
 
-The mplang executable at the release page will not be updated from now.
+The mplang executable at the release page will not be updated from now on.
 
 ### Date: 2021-11-19
 The mplang official documentation is ready, you can look at it [here](https://github.com/Rainbow-Dreamer/musicpy_dev/blob/main/mplang/mplang%20official%20documentation.md).
