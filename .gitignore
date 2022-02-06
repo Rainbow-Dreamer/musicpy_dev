@@ -1,5 +1,4 @@
 # Byte-compiled / optimized / DLL files
-__pycache__/
 *.py[cod]
 *$py.class
 
@@ -113,8 +112,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-mplang_test.py
-*.mp
 mplang.exe
-pyinstaller mplang.txt
-extra-hooks
