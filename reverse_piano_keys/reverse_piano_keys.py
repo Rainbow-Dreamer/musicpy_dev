@@ -7,8 +7,9 @@ but the piano keys are reversed (the lowest key become the highest key, and so o
 just enjoy this little fun function~
 
 Usage:
-# firstly read a MIDI file as a chord instance
-bpm, test_piece, start_time = mp.read(file_path)
+# firstly read a MIDI file as a piece instance,
+# and then apply merge function to it in order to get a chord instance
+bpm, test_piece, start_time = mp.read(file_path).merge()
 
 # convert to a new chord instance with reversed piano keys applied
 test_piece_new = reverse_piano_keys(test_piece)
