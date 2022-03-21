@@ -55,6 +55,6 @@ num: 3
 name: example song
 bpm: 150
 channels:
-channel 1, name piano, sound r"G:\fl studio files\sound modules\sf2 files\GM SoundFonts\Arachno.sf2"
-channel 2, name harp, sound r"G:\fl studio files\sound modules\sf2 files\GM SoundFonts\Arachno.sf2"
+channel 1, name piano, sound "Arachno.sf2"
+channel 2, name harp, sound "Arachno.sf2"
 end

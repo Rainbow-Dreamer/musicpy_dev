@@ -288,7 +288,7 @@ define piece e3
 name: example song
 bpm: 150
 tracks: c1, c3
-instruments: 1, 47
+instruments_list: 1, 47
 start_times: 0, 2
 channels: 0, 1
 track_names: piano, harp
