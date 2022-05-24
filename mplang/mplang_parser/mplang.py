@@ -67,7 +67,7 @@ def parse_set_attribute(lines, str_attributes=None, split_symbol=';'):
 
 def parser(text=None, file=None):
     if file:
-        with open(file, encoding='utf-8-sig') as f:
+        with open(file, encoding='utf-8') as f:
             text = f.read()
     lines = text.split('\n')
     i = 0
