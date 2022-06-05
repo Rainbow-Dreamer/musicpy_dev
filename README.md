@@ -5,7 +5,7 @@ This is a repository holding musicpy develop thoughts and some other related stu
 
 ### Date: 2022-06-05
 
-Now mplang executable is recompiled to be using musicpy and sf2_loader as dynamic libraries, which means it depends on the musicpy and sf2_loader files that put with it, if you change some parameters inside the packages, you can use mplang with the updated versions. This change avoids any further recompilations of mplang executable when musicpy and sf2_loader are updated. If you want to use mplang with the latest version of musicpy and sf2_loader, just download the latest version and replace the files inside `mplang/mplang_parser/packages` folder.
+Now mplang executable is recompiled to be using musicpy and sf2_loader as dynamic libraries, which means it depends on the musicpy and sf2_loader files that put with it, if you change some parameters inside the packages, you can use mplang with the updated versions. This change avoids any further recompilations of mplang executable when musicpy and sf2_loader are updated. If you want to use mplang with the latest version of musicpy and sf2_loader, just download the latest version and replace the files inside `mplang/mplang_parser/packages` folder. Now the mplang executable is located in `mplang/mplang_parser` folder instead of releases.
 
 
 
