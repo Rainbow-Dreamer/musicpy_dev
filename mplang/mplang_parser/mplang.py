@@ -1,9 +1,3 @@
-import os
-import sys
-from musicpy import *
-from musicpy.sampler import *
-import traceback
-
 piece_attributes = [
     'tracks', 'instruments_list', 'bpm', 'start_times', 'track_names',
     'channels', 'name', 'pan', 'volume', 'other_messages', 'sampler_channels'
