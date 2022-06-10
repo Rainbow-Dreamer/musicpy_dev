@@ -170,7 +170,7 @@ modern_modes = [
 # you can sort the chord types from most commonly used to least commonly used
 # to get better chord detection results
 chordTypes = match({
-    ('major', 'M', 'maj', 'majorthird', 'abc'): ((4, 7), ),
+    ('major', 'M', 'maj', 'majorthird'): ((4, 7), ),
     ('minor', 'm', 'minorthird', 'min', '-'): ((3, 7), ),
     ('maj7', 'M7', 'major7th', 'majorseventh'): ((4, 7, 11), ),
     ('m7', 'min7', 'minor7th', 'minorseventh', '-7'): ((3, 7, 10), ),
