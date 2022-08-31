@@ -5,7 +5,7 @@ This is a repository holding musicpy develop thoughts and some other related stu
 
 ### Date: 2022-08-26
 
-Added control module to musicpy, which allows you to send MIDI messages converted from musicpy data structures in realtime to your DAW or any MIDI controllers. This means that you can using musicpy to compose a song and then play using your DAW with loaded VST instruments and Kontakt libraries. I will update the tutorial of how to use the control module in wiki when I have free time.
+Added control module to musicpy, which allows you to send MIDI messages converted from musicpy data structures in realtime to your DAW or any MIDI controllers. This means that you can use musicpy to compose a song and then play using your DAW with loaded VST instruments and Kontakt libraries. I will update the tutorial of how to use the control module in wiki when I have free time.
 
 
 
