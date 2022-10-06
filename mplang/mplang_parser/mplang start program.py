@@ -16,7 +16,8 @@ abs_path = os.path.dirname(sys.executable)
 os.chdir(abs_path)
 sys.path.append('.')
 
-from musicpy import *
+with open('musicpy/__init__.py', encoding='utf-8') as f:
+    exec(f.read())
 
 with open('mplang.py', encoding='utf-8') as f:
     exec(f.read())
