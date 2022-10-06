@@ -11,7 +11,7 @@ Added control module to musicpy, which allows you to send MIDI messages converte
 
 ### Date: 2022-06-05
 
-Now mplang executable is recompiled to be using musicpy and sf2_loader as dynamic libraries, which means it depends on the musicpy and sf2_loader files that put with it, if you change some parameters inside the packages, you can use mplang with the updated versions. This change avoids any further recompilations of mplang executable when musicpy and sf2_loader are updated. If you want to use mplang with the latest version of musicpy and sf2_loader, just download the latest version and replace the files inside `mplang/mplang_parser/packages` folder. Now the mplang executable is located in `mplang/mplang_parser` folder instead of releases.
+Now mplang executable is recompiled to be using musicpy and sf2_loader as dynamic libraries, which means it depends on the musicpy and sf2_loader files that put with it, if you change some parameters of the libraries, you can use mplang with the updated versions. This change avoids any further recompilations of mplang executable when musicpy and sf2_loader are updated. If you want to use mplang with the latest version of musicpy and sf2_loader, just download the latest version and replace the files inside `mplang/mplang_parser` folder. Now the mplang executable is located in `mplang/mplang_parser` folder instead of releases.
 
 
 
@@ -21,17 +21,13 @@ Because musicpy and sf2_loader are updated very frequently, so each time they up
 
 Firstly, be sure to install python >= 3.7.
 
-Then, for python libraries you need to pip install: pyinstaller, musicpy, sf2_loader, if you are already installed musicpy and sf2_loader, please upgrade to the newest version by `pip install --upgrade musicpy sf2_loader`.
-
 Then, download this repository by clicking [here](https://github.com/Rainbow-Dreamer/musicpy_dev/archive/refs/heads/main.zip).
 
 Then, go to the directory `mplang/mplang_parser`.
 
-Open the python file `extra-hooks/hook-sf2_loader.py` in a text editor or IDE, change the python installation path header for the sf2_loader data file path to match your personal python installation path.
-
 Then, open the terminal, copy and paste what is in the text file `pyinstaller mplang.txt` to the terminal, and run to compile the mplang executable. The result executable will be in the `dist` folder.
 
-The mplang executable at the release page will not be updated from now on.
+Finally, put the mplang executable at `mplang/mplang_parser` and you can open it to use.
 
 
 
