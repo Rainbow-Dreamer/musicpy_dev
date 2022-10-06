@@ -1,12 +1,6 @@
-piece_attributes = [
-    'tracks', 'instruments_list', 'bpm', 'start_times', 'track_names',
-    'channels', 'name', 'pan', 'volume', 'other_messages', 'sampler_channels'
-]
+piece_attributes = piece.__init__.__code__.co_varnames
 piece_attributes_str = ['name', 'track_names']
-track_attributes = [
-    'content', 'instrument', 'start_time', 'channel', 'track_name', 'pan',
-    'volume', 'bpm', 'name', 'sampler_channel'
-]
+track_attributes = track.__init__.__code__.co_varnames
 track_attributes_str = ['track_name', 'name']
 scale_attributes_str = ['start', 'mode', 'name']
 sampler_attributes = ['name', 'num', 'bpm']
@@ -233,7 +227,7 @@ def make_chord_parser(lines=None,
         result = f'{variable_name} = C("{chord_part}"{config_part}) {other_part}'
     else:
         chord_part = get_part_in_parenthesis(current_data, config_inds, 0)
-        result = f'{variable_name} = C("{chord_part}"{config_part}) {other_part}'
+        result = f'{variable_name} = chord("{chord_part}"{config_part}) {other_part}'
     if current:
         return result
     else:
@@ -512,6 +506,8 @@ def define_drum_parser(lines, i, variable_name, current=None):
             current_definition_range = i, j
             break
     drum_attribute_dict = {}
+    drum_attributes = drum.__init__.__code__.co_varnames
+    ranges = []
     for each in range(current_definition_range[0],
                       current_definition_range[1]):
         current_line_define = lines[each]
@@ -520,13 +516,22 @@ def define_drum_parser(lines, i, variable_name, current=None):
                 ':', 1)
             attribute_token = attribute_token.strip()
             attribute_value = attribute_value.lstrip()
-            if attribute_token == 'name':
-                drum_attribute_dict['name'] = f'"{attribute_value}"'
-            elif attribute_token == 'pattern':
-                drum_attribute_dict[
-                    'pattern'] = f"'''{drum_pattern_parser(lines, current_definition_range, each)}'''"
-            else:
-                drum_attribute_dict[attribute_token] = attribute_value
+            if attribute_token in drum_attributes:
+                ranges.append(each)
+    ranges.append(current_definition_range[1])
+
+    for i in range(len(ranges) - 1):
+        current_start, current_stop = ranges[i], ranges[i + 1]
+        current_part = ''.join(lines[current_start:current_stop])
+        attribute_token, attribute_value = current_part.split(':', 1)
+        attribute_token = attribute_token.strip()
+        attribute_value = attribute_value.lstrip()
+        if attribute_token == 'name':
+            drum_attribute_dict['name'] = f'"{attribute_value}"'
+        elif attribute_token == 'pattern':
+            drum_attribute_dict['pattern'] = f'"{attribute_value}"'
+        else:
+            drum_attribute_dict[attribute_token] = attribute_value
     current_drum_text = f'drum({",".join([f"{each_drum_attribute}={drum_attribute_dict[each_drum_attribute]}" for each_drum_attribute in drum_attribute_dict])})'
     result = f'{variable_name} = {current_drum_text}'
     if current:
@@ -536,6 +541,18 @@ def define_drum_parser(lines, i, variable_name, current=None):
 
 
 def define_sampler_parser(lines, i, variable_name, current=None):
+    if 'sampler' not in globals():
+        if parse_state == 1:
+            print(
+                "sampler module is not imported, please import by 'use musicpy.sampler'"
+            )
+            result = ''
+            if current:
+                return result
+            lines[current_definition_range[0]] = result
+            del lines[current_definition_range[0] +
+                      1:current_definition_range[1] + 1]
+            return
     j = i
     current_definition_range = i, len(lines)
     while j < len(lines):
@@ -585,6 +602,7 @@ def define_sampler_parser(lines, i, variable_name, current=None):
 
 def parse(text=None, file=None, debug=0):
     result = parser(text, file)
+    print(111, result, flush=True)
     if debug > 0:
         print(result)
     if debug == 0 or debug == 2:
@@ -653,7 +671,9 @@ if __name__ == '__main__':
     argv = sys.argv
     parse_as_text = False
     wait_for_playing = False
+    parse_state = 0
     if len(argv) == 1:
+        parse_state = 1
         interactive_parse()
     else:
         if '-t' in argv:

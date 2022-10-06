@@ -1,5 +1,5 @@
 let c1 = chord Cmaj7 (duration 1/2; interval 1/8) {% (1/8, 1/8)}
-let c3 = chord (F5, A5, C6, E6) (duration 1/2; interval 1/8) {% (1/2, 1/8) - octave}
+let c3 = chord (F5, A5, C6, E6) (duration 1/2; interval 1/8) {% (1/2, 1/8) - database.octave}
 let e1 = c1 | c3
 
 let n1 = note C5
@@ -16,23 +16,19 @@ let s2 = scale (C5 major)
 let e1 = piece {(c1, 1, start_time 0); (c3, 47, start_time 2); (bpm 150); (name example_song)}
 let e5 = piece {tracks: (c1, c3); instruments: (1, 47); channels: (0, 1); bpm: 150; name: example_song}
 
-let d1 = drum (0,1,2,1,{2})
-let d2 = drum (0,1,2,1,{2}) (name some; i 5) {+2}
-
 define piece example_song
 name: example song
 bpm: 150
 track:
 c1, instrument 1, start_time 0, channel 0, track_name piano
 c3, instrument 47, start_time 1, channel 1, track_name harp
-d1.notes, instrument 1, start_time 0, channel 9, track_name drum
 end
 
 define piece e3
 name: example song
 bpm: 150
 tracks: c1, c3
-instruments_list: 1, 47
+instruments: 1, 47
 start_times: 0, 2
 channels: 0, 1
 track_names: piano, harp
@@ -41,14 +37,6 @@ end
 # play example_song, name='temp.mid'
 
 use musicpy.sampler
-
-define drum d1
-pattern:
-0, 1, 2, 1, {2},
-0, 0, 2, 1, {2},
-0, 1[.16;.], 0[.16;.], 2, 1,
-0, 1, 2, 1
-end
 
 define sampler current
 num: 3

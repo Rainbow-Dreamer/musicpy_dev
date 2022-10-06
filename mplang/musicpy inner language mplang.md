@@ -46,7 +46,7 @@ define piece e3
 name: example song
 bpm: 150
 tracks: c1, c3
-instruments_list: 1, 47
+instruments: 1, 47
 start_times: 0, 2
 channels: 0, 1
 track_names: piano, harp
@@ -95,10 +95,10 @@ let d1 = drum 0,1,2,1,{2}
 define drum d1
 mapping: ... (if use default mappings then you do not need to write this)
 pattern:
-0, 1, 2, 1, {2},
-0, 0, 2, 1, {2},
-0, 1[.16;.], 0[.16;.], 2, 1,
-0, 1, 2, 1
+K, H, S, H, r:2,
+K, K, S, H, r:2,
+K, H[l:.16; i:.], K[l:.16; i:.], S, H,
+K, H, S, H
 end
 ```
 

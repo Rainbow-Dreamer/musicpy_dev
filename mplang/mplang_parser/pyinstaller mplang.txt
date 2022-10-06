@@ -1,1 +1,1 @@
-pyinstaller -F "mplang start program.py" --additional-hooks=extra-hooks
+pyinstaller -F "mplang start program.py"
