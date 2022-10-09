@@ -35,7 +35,8 @@ class midi_event:
         self.channel = channel
 
     def __repr__(self):
-        return f'[note event] note: {self.current_note}  time: {self.time}s  mode: {self.mode}'
+        return '[midi event] ' + ', '.join(
+            [f'{i}: {j}' for i, j in vars(self).items()])
 
 
 def piece_to_event_list(current_chord, set_instrument=False):
@@ -62,14 +63,14 @@ def piece_to_event_list(current_chord, set_instrument=False):
                            channel=current_channel))
 
     for each in current_chord.other_messages:
-        if isinstance(each, controller_event):
+        if each.type == 'control_change':
             event_list.append(
                 midi_event(value=each,
                            time=bar_to_real_time(each.start_time,
                                                  current_chord.bpm, 1) / 1000,
                            mode=5,
                            track=each.track))
-        elif isinstance(each, program_change):
+        elif each.type == 'program_change':
             event_list.append(
                 midi_event(value=each,
                            time=bar_to_real_time(each.start_time,
@@ -82,12 +83,13 @@ def piece_to_event_list(current_chord, set_instrument=False):
         for j in each:
             event_list.append(
                 midi_event(
-                    value=controller_event(track=i,
-                                           channel=j.channel if j.channel
-                                           is not None else current_channel,
-                                           time=j.start_time,
-                                           controller_number=10,
-                                           parameter=j.value),
+                    value=event('control_change',
+                                track=i,
+                                channel=j.channel
+                                if j.channel is not None else current_channel,
+                                start_time=j.start_time,
+                                control=10,
+                                value=j.value),
                     time=bar_to_real_time(j.start_time, current_chord.bpm, 1) /
                     1000,
                     mode=5,
@@ -98,12 +100,13 @@ def piece_to_event_list(current_chord, set_instrument=False):
         for j in each:
             event_list.append(
                 midi_event(
-                    value=controller_event(track=i,
-                                           channel=j.channel if j.channel
-                                           is not None else current_channel,
-                                           time=j.start_time,
-                                           controller_number=7,
-                                           parameter=j.value),
+                    value=event('control_change',
+                                track=i,
+                                channel=j.channel
+                                if j.channel is not None else current_channel,
+                                start_time=j.start_time,
+                                control=7,
+                                value=j.value),
                     time=bar_to_real_time(j.start_time, current_chord.bpm, 1) /
                     1000,
                     mode=5,
@@ -165,7 +168,8 @@ def start(current_chord,
           start_time=0,
           bpm=120,
           track_num=None,
-          set_instrument=False):
+          set_instrument=False,
+          print_log=False):
     if isinstance(current_chord, note):
         current_chord = chord([current_chord])
     if isinstance(current_chord, chord):
@@ -207,6 +211,8 @@ def start(current_chord,
         past_time = time.time() - start_time
         current_event = event_list[counter]
         if past_time >= current_event.time:
+            if print_log:
+                print(current_event, flush=True)
             mode = current_event.mode
             if track_num:
                 current_track = track_num[current_event.track]
@@ -218,7 +224,7 @@ def start(current_chord,
                 current_channel = current_note.channel if current_note.channel is not None else channels[
                     current_event.track]
                 current_player.note_on(note=current_note.degree,
-                                       velocity=current_event.value.volume,
+                                       velocity=current_note.volume,
                                        channel=current_channel)
             elif mode == 1:
                 current_note = current_event.value
@@ -238,10 +244,9 @@ def start(current_chord,
             elif mode == 4:
                 current_player.write_short(0xFF, 0x51, current_event.value)
             elif mode == 5:
-                current_player.write_short(
-                    0xb0 | current_event.value.channel,
-                    current_event.value.controller_number,
-                    current_event.value.parameter)
+                current_player.write_short(0xb0 | current_event.value.channel,
+                                           current_event.value.control,
+                                           current_event.value.value)
             elif mode == 6:
                 current_player.write_short(0xc0 | current_event.value.channel,
                                            current_event.value.program)
