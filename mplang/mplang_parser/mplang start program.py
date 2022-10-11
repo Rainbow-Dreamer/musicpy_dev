@@ -2,8 +2,7 @@ import os
 import sys
 import traceback
 import chunk
-import midiutil
-import mido
+import mido_fix
 import fractions
 import pygame
 from pydub import AudioSegment
