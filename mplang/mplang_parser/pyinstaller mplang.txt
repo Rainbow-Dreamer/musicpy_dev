@@ -1,1 +1,1 @@
-pyinstaller -F "mplang start program.py"
+pyinstaller -F "mplang start program.py" --hidden-import=dataclasses
