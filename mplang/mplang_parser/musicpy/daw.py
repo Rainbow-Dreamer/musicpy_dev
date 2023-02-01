@@ -11,7 +11,7 @@ import pickle
 abs_path = os.path.abspath(os.path.dirname(__file__))
 
 
-class esi:
+class mdi:
 
     def __init__(self, samples, settings=None, name_mappings=None):
         self.samples = samples
@@ -180,9 +180,9 @@ class daw:
     def __delitem__(self, i):
         self.delete_channel(i)
 
-    def load(self, current_ind, path=None, esi=None):
-        if esi is not None:
-            self.load_esi_file(current_ind, esi)
+    def load(self, current_ind, path=None, mdi=None):
+        if mdi is not None:
+            self.load_mdi_file(current_ind, mdi)
             return
         sound_path = path
         if os.path.isdir(sound_path):
@@ -630,12 +630,12 @@ class daw:
         if text is None:
             self.reload_channel_sounds(channel_num)
 
-    def load_esi_file(self, channel_num, file_path):
+    def load_mdi_file(self, channel_num, file_path):
         abs_path = os.getcwd()
         with open(file_path, 'rb') as file:
-            current_esi = pickle.load(file)
-        channel_settings = current_esi.settings
-        current_samples = current_esi.samples
+            current_mdi = pickle.load(file)
+        channel_settings = current_mdi.settings
+        current_samples = current_mdi.samples
         filenames = list(current_samples.keys())
         sound_files_audio = [
             AudioSegment.from_file(
@@ -1270,8 +1270,8 @@ def audio_chord(audio_list, interval=0, duration=1 / 4, volume=127):
     return result
 
 
-def make_esi(file_path,
-             name='untitled.esi',
+def make_mdi(file_path,
+             name='untitled.mdi',
              settings=None,
              asfile=True,
              name_mappings=None):
@@ -1287,46 +1287,46 @@ def make_esi(file_path,
             current_settings = settings
 
     if not filenames:
-        print('There are no sound files to make ESI files')
+        print('There are no sound files to make MDI files')
         return
     os.chdir(file_path)
     for t in filenames:
         with open(t, 'rb') as f:
             current_samples[t] = f.read()
-    current_esi = esi(current_samples, current_settings, name_mappings)
+    current_mdi = mdi(current_samples, current_settings, name_mappings)
     os.chdir(abs_path)
     with open(name, 'wb') as f:
-        pickle.dump(current_esi, f)
-    print(f'Successfully made ESI file: {name}')
+        pickle.dump(current_mdi, f)
+    print(f'Successfully made MDI file: {name}')
 
 
-def unzip_esi(file_path, folder_name=None):
+def unzip_mdi(file_path, folder_name=None):
     if folder_name is None:
         folder_name = os.path.basename(file_path)
         folder_name = folder_name[:folder_name.rfind('.')]
     if folder_name not in os.listdir():
         os.mkdir(folder_name)
-    current_esi = load_esi(file_path, convert=False)
+    current_mdi = load_mdi(file_path, convert=False)
     os.chdir(folder_name)
-    for each in current_esi.samples:
+    for each in current_mdi.samples:
         print(f'Currently unzip file {each}')
         with open(each, 'wb') as f:
-            f.write(current_esi.samples[each])
+            f.write(current_mdi.samples[each])
     print(f'Unzip {os.path.basename(file_path)} successfully')
 
 
-def load_esi(file_path, convert=True):
+def load_mdi(file_path, convert=True):
     with open(file_path, 'rb') as file:
-        current_esi = pickle.load(file)
-    current_samples = current_esi.samples
+        current_mdi = pickle.load(file)
+    current_samples = current_mdi.samples
     if convert:
-        current_esi.samples = {
+        current_mdi.samples = {
             i: AudioSegment.from_file(
                 BytesIO(current_samples[i]), format=os.path.splitext(i)[1]
                 [1:]).set_frame_rate(44100).set_channels(2).set_sample_width(2)
             for i in current_samples
         }
-    return current_esi
+    return current_mdi
 
 
 default_notedict = {

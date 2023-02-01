@@ -361,9 +361,9 @@ The comments in mplang is the same as python, using `#` at the start for comment
 
 Currently the design of mplang is at its early stage, the syntax is very simple, and the functionality it supports natively is restricted. The data structures and other advanced music theory functions needs to has their own mplang representation.
 
-* Add construct syntax of other musicpy data structures using `let` keyword including track, tempo, pitch_bend, pan, volume, rest, and esi, effect, effect_chain, pitch, sound from daw module. For the daw class, I think its construction will be supported only using `define` keyword, like some data structures only support constructing using `let` keyword.
+* Add construct syntax of other musicpy data structures using `let` keyword including track, tempo, pitch_bend, pan, volume, rest, and mdi, effect, effect_chain, pitch, sound from daw module. For the daw class, I think its construction will be supported only using `define` keyword, like some data structures only support constructing using `let` keyword.
 
-* Add construct syntax of other musicpy data structures using `define` keyword including track, esi, effect, effect_chain.
+* Add construct syntax of other musicpy data structures using `define` keyword including track, mdi, effect, effect_chain.
 
 * Make multiple chords concatenation while each chord is in construct syntax possible, for example,
 

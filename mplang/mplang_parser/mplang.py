@@ -587,8 +587,8 @@ def define_daw_parser(lines, i, variable_name, current=None):
                 current_channels_text += f'{variable_name}.set_channel_name({current_channel_num}, {current_channel_name})\n'
             if current_channel_sound is not None:
                 current_path = current_channel_sound[1:-1]
-                if os.path.splitext(current_path)[1][1:].lower() == 'esi':
-                    current_channels_text += f'{variable_name}.load({current_channel_num}, esi={current_channel_sound})\n'
+                if os.path.splitext(current_path)[1][1:].lower() == 'mdi':
+                    current_channels_text += f'{variable_name}.load({current_channel_num}, mdi={current_channel_sound})\n'
                 else:
                     current_channels_text += f'{variable_name}.load({current_channel_num}, {current_channel_sound})\n'
         current_channels_text = current_channels_text[:-1]
