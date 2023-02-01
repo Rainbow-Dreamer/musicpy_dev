@@ -89,7 +89,7 @@ class effect_chain:
             [str(i) for i in self.effects])
 
 
-class sampler:
+class daw:
 
     def __init__(self, num=1, name=None, bpm=120):
         self.channel_num = num
@@ -165,13 +165,13 @@ class sampler:
         return len(self.channel_names)
 
     def __repr__(self):
-        return '[Sampler]' + (' ' + self.name if self.name is not None else
-                              '') + '\n' + '\n'.join([
-                                  ' | '.join([
-                                      self.channel_names[i],
-                                      self.channel_sound_modules_name[i]
-                                  ]) for i in range(self.channel_num)
-                              ])
+        return '[daw]' + (' ' + self.name if self.name is not None else
+                          '') + '\n' + '\n'.join([
+                              ' | '.join([
+                                  self.channel_names[i],
+                                  self.channel_sound_modules_name[i]
+                              ]) for i in range(self.channel_num)
+                          ])
 
     def __getitem__(self, i):
         return ' | '.join(
@@ -315,7 +315,7 @@ class sampler:
             current_pan = current_chord.pan
             current_volume = current_chord.volume
             current_tracks = current_chord.tracks
-            current_channels = current_chord.sampler_channels if current_chord.sampler_channels else [
+            current_channels = current_chord.daw_channels if current_chord.daw_channels else [
                 i for i in range(len(current_chord))
             ]
             for i in range(len(current_chord.tracks)):
@@ -759,7 +759,7 @@ class sampler:
             if has_effect:
                 current_chord.effects = current_effects
         if isinstance(current_chord, piece):
-            current_channel_nums = current_chord.sampler_channels if current_chord.sampler_channels else [
+            current_channel_nums = current_chord.daw_channels if current_chord.daw_channels else [
                 i for i in range(len(current_chord))
             ]
             if check_special(current_chord) or any(
@@ -1243,15 +1243,15 @@ def get_wave(sound, mode='sine', bpm=120, volume=None):
     return temp
 
 
-def audio(obj, sampler, channel_num=0, bpm=None):
+def audio(obj, current_daw, channel_num=0, bpm=None):
     if isinstance(obj, note):
         obj = chord([obj])
     elif isinstance(obj, track):
         obj = build(obj, bpm=obj.bpm, name=obj.name)
-    result = sampler.export(obj,
-                            action='get',
-                            channel_num=channel_num,
-                            bpm=bpm)
+    result = current_daw.export(obj,
+                                action='get',
+                                channel_num=channel_num,
+                                bpm=bpm)
     return result
 
 

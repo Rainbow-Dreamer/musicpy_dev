@@ -104,9 +104,9 @@ end
 
 #### (there could be empty lines inside the definition body)
 
-#### using the sampler module
+#### using the daw module
 ```
-define sampler current
+define daw current
 num: 3
 name: example song
 bpm: 150

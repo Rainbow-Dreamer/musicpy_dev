@@ -3,7 +3,7 @@ piece_attributes_str = ['name', 'track_names']
 track_attributes = track.__init__.__code__.co_varnames
 track_attributes_str = ['track_name', 'name']
 scale_attributes_str = ['start', 'mode', 'name']
-sampler_attributes = ['name', 'num', 'bpm']
+daw_attributes = ['name', 'num', 'bpm']
 drum_attributes_str = ['name']
 define_state = False
 define_variable = None
@@ -133,12 +133,12 @@ def define_token_parser(lines=None, i=None, remain_part=None, current=None):
             define_variable = variable_name
         else:
             define_drum_parser(lines, i, variable_name)
-    elif type_name == 'sampler':
+    elif type_name == 'daw':
         if current:
-            define_state = 'sampler'
+            define_state = 'daw'
             define_variable = variable_name
         else:
-            define_sampler_parser(lines, i, variable_name)
+            define_daw_parser(lines, i, variable_name)
     if current:
         return ''
 
@@ -474,8 +474,8 @@ def drum_pattern_parser(lines, current_definition_range, each):
     return '\n'.join(lines[each + 1:pattern_ind])
 
 
-def sampler_channel_parser(lines, current_definition_range, each,
-                           current_channels):
+def daw_channel_parser(lines, current_definition_range, each,
+                       current_channels):
     channel_counter = 1
     for i in range(each + 1, current_definition_range[1]):
         current = lines[i].strip()
@@ -540,11 +540,11 @@ def define_drum_parser(lines, i, variable_name, current=None):
     del lines[current_definition_range[0] + 1:current_definition_range[1] + 1]
 
 
-def define_sampler_parser(lines, i, variable_name, current=None):
-    if 'sampler' not in globals():
+def define_daw_parser(lines, i, variable_name, current=None):
+    if 'daw' not in globals():
         if parse_state == 1:
             print(
-                "sampler module is not imported, please import by 'use musicpy.sampler'"
+                "daw module is not imported, please import by 'use musicpy.daw'"
             )
             result = ''
             if current:
@@ -561,7 +561,7 @@ def define_sampler_parser(lines, i, variable_name, current=None):
         else:
             current_definition_range = i, j
             break
-    sampler_attribute_dict = {}
+    daw_attribute_dict = {}
     current_channels = []
     for each in range(current_definition_range[0],
                       current_definition_range[1]):
@@ -572,13 +572,13 @@ def define_sampler_parser(lines, i, variable_name, current=None):
             attribute_token = attribute_token.strip()
             attribute_value = attribute_value.lstrip()
             if attribute_token == 'name':
-                sampler_attribute_dict['name'] = f'"{attribute_value}"'
+                daw_attribute_dict['name'] = f'"{attribute_value}"'
             elif attribute_token == 'channels':
-                sampler_channel_parser(lines, current_definition_range, each,
-                                       current_channels)
-            elif attribute_token in sampler_attributes:
-                sampler_attribute_dict[attribute_token] = attribute_value
-    current_sampler_text = f'sampler({",".join([f"{each_sampler_attribute}={sampler_attribute_dict[each_sampler_attribute]}" for each_sampler_attribute in sampler_attribute_dict])})'
+                daw_channel_parser(lines, current_definition_range, each,
+                                   current_channels)
+            elif attribute_token in daw_attributes:
+                daw_attribute_dict[attribute_token] = attribute_value
+    current_daw_text = f'daw({",".join([f"{each_daw_attribute}={daw_attribute_dict[each_daw_attribute]}" for each_daw_attribute in daw_attribute_dict])})'
     if current_channels:
         current_channels_text = '\n'
         for k in current_channels:
@@ -592,8 +592,8 @@ def define_sampler_parser(lines, i, variable_name, current=None):
                 else:
                     current_channels_text += f'{variable_name}.load({current_channel_num}, {current_channel_sound})\n'
         current_channels_text = current_channels_text[:-1]
-        current_sampler_text += current_channels_text
-    result = f'{variable_name} = {current_sampler_text}'
+        current_daw_text += current_channels_text
+    result = f'{variable_name} = {current_daw_text}'
     if current:
         return result
     lines[current_definition_range[0]] = result
@@ -634,8 +634,8 @@ def interactive_parse():
                         elif define_state == 'drum':
                             current = define_drum_parser(
                                 define_body, 0, define_variable, current)
-                        elif define_state == 'sampler':
-                            current = define_sampler_parser(
+                        elif define_state == 'daw':
+                            current = define_daw_parser(
                                 define_body, 0, define_variable, current)
                         define_state = False
                         define_variable = None

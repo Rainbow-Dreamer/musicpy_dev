@@ -23,7 +23,7 @@
   - [Construct musicpy data structures using `define` keyword](#Construct-musicpy-data-structures-using-define-keyword)
     - [piece](#piece-1)
     - [drum](#drum-1)
-    - [sampler](#sampler)
+    - [daw](#daw)
   - [Using functions](#Using-functions)
   - [Import python modules](#Import-python-modules)
   - [Comments in mplang](#Comments-in-mplang)
@@ -249,7 +249,7 @@ let result = c1 | c2
 
 ### Construct musicpy data structures using `define` keyword
 
-You can also use `define` keyword to construct musicpy data structures, which provides a more readable syntax, but this currently only works for a few musicpy data structures, which are piece, drum and sampler.
+You can also use `define` keyword to construct musicpy data structures, which provides a more readable syntax, but this currently only works for a few musicpy data structures, which are piece, drum and daw.
 
 The general form of this syntax is
 
@@ -307,10 +307,10 @@ K, H, S, H
 end
 ```
 
-### sampler
-Note that for channels, you must start with `channel number` to construct each channel of the sampler, the index is 1-based.
+### daw
+Note that for channels, you must start with `channel number` to construct each channel of the daw, the index is 1-based.
 ```
-define sampler current
+define daw current
 num: 3
 name: example song
 bpm: 150
@@ -361,7 +361,7 @@ The comments in mplang is the same as python, using `#` at the start for comment
 
 Currently the design of mplang is at its early stage, the syntax is very simple, and the functionality it supports natively is restricted. The data structures and other advanced music theory functions needs to has their own mplang representation.
 
-* Add construct syntax of other musicpy data structures using `let` keyword including track, tempo, pitch_bend, pan, volume, rest, and esi, effect, effect_chain, pitch, sound from sampler module. For the sampler class, I think its construction will be supported only using `define` keyword, like some data structures only support constructing using `let` keyword.
+* Add construct syntax of other musicpy data structures using `let` keyword including track, tempo, pitch_bend, pan, volume, rest, and esi, effect, effect_chain, pitch, sound from daw module. For the daw class, I think its construction will be supported only using `define` keyword, like some data structures only support constructing using `let` keyword.
 
 * Add construct syntax of other musicpy data structures using `define` keyword including track, esi, effect, effect_chain.
 

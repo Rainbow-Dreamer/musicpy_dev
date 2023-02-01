@@ -36,9 +36,9 @@ end
 # write the piece instance example_song to a MIDI file
 # play example_song, name='temp.mid'
 
-use musicpy.sampler
+use musicpy.daw
 
-define sampler current
+define daw current
 num: 3
 name: example song
 bpm: 150
