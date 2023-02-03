@@ -393,8 +393,9 @@ class daw:
                             extra_length=None if not track_extra_lengths else
                             track_extra_lengths[i],
                             **soundfont_args),
-                        position=bar_to_real_time(current_start_times[i],
-                                                  current_bpm, 1))
+                        position=bar_to_real_time(
+                            current_start_times[i] + current_track.start_time,
+                            current_bpm, 1))
                     current_sound_modules.change(current_channel,
                                                  current_sfid,
                                                  current_bank,
@@ -403,12 +404,12 @@ class daw:
                 else:
                     silent_audio = self.channel_to_audio(
                         current_tracks[i],
-                        current_channels[i],
+                        current_track,
                         silent_audio,
                         current_bpm,
                         current_pan[i],
                         current_volume[i],
-                        current_start_times[i],
+                        current_start_times[i] + current_track.start_time,
                         length=None if not track_lengths else track_lengths[i],
                         extra_length=None
                         if not track_extra_lengths else track_extra_lengths[i])
@@ -779,7 +780,9 @@ class daw:
             current_start_times = current_chord.start_times
             for each in range(len(current_chord)):
                 current_id = threading.Timer(
-                    bar_to_real_time(current_start_times[each], bpm, 1) / 1000,
+                    bar_to_real_time(
+                        current_start_times[each] +
+                        current_tracks[each].start_time, bpm, 1) / 1000,
                     lambda each=each, bpm=bpm: self.play_channel(
                         current_tracks[each], current_channel_nums[each], bpm))
                 current_id.start()
