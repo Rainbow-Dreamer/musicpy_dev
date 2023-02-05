@@ -3,7 +3,18 @@ This is a repository holding musicpy develop thoughts and some other related stu
 
 ### Date: 2023-02-06
 
-Here is a section of For An Angel by Paul Van Dyk written in musicpy, using musicpy's daw module, which could load instruments and render musicpy's chords and pieces into audio files or play directly. The instruments used in this one are all SoundFont files, which I included in the zip file. You need to pip install `sf2_loader` in order to use musicpy's daw module. Run the python script in the zip file to take a listen to what this sounds. Here I will also provide a rendered version.
+Here is a section of For An Angel by Paul Van Dyk written in musicpy, using musicpy's daw module, which could load instruments and render musicpy's chords and pieces into audio files or play directly.
+
+If you are interested in musicpy, please be sure not to miss the daw module, there is a lot to discover, and you can combine it with various of python libraries which are audio processing related to get more functionality. The [wiki](https://github.com/Rainbow-Dreamer/musicpy/wiki/musicpy-daw-module) about the daw module is very detailed, which I invested a lot of time in.
+
+The instruments used in this one are all SoundFont files, which I included in the zip file.
+
+You need to pip install `sf2_loader` in order to use musicpy's daw module.
+
+Run the python script in the zip file to take a listen to what this sounds. Here I will also provide a rendered version.
+
+You can download this from [here](https://www.jianguoyun.com/p/DXF-3AIQhPG0CBi_kPQEIAA)
+
 
 
 ### Date: 2022-08-26
