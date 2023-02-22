@@ -268,27 +268,18 @@ class daw:
                     extra_length=extra_length,
                     **soundfont_args)
             else:
-                apply_fadeout_obj = self.apply_fadeout(current_chord,
-                                                       current_bpm)
-                if length:
-                    whole_duration = length * 1000
-                else:
-                    whole_duration = apply_fadeout_obj.eval_time(
-                        current_bpm,
-                        mode='number',
-                        audio_mode=1,
-                        start_time=current_chord.start_time) * 1000
-                    if extra_length:
-                        whole_duration += extra_length * 1000
-                silent_audio = AudioSegment.silent(duration=whole_duration)
-                silent_audio = self.channel_to_audio(
+                current_silent_audio = self.channel_to_audio(
                     current_chord,
-                    current_channel_num,
-                    silent_audio,
-                    current_bpm,
+                    current_channel_num=current_channel_num,
+                    current_bpm=current_bpm,
                     length=length,
-                    extra_length=extra_length,
-                    current_start_time=current_chord.start_time)
+                    extra_length=extra_length)
+                current_start_time = bar_to_real_time(current_chord.start_time,
+                                                      current_bpm, 1)
+                silent_audio = AudioSegment.silent(
+                    duration=len(current_silent_audio) + current_start_time)
+                silent_audio = silent_audio.overlay(
+                    current_silent_audio, position=current_start_time)
             if show_msg:
                 print('rendering finished')
             try:
@@ -326,17 +317,9 @@ class daw:
                             len(each), current_bpm)
                         each.volume = 127
                 current_chord.tracks[i] = each_channel
-            apply_fadeout_obj = self.apply_fadeout(current_chord, current_bpm)
-            if length:
-                whole_duration = length * 1000
-            else:
-                whole_duration = apply_fadeout_obj.eval_time(
-                    current_bpm, mode='number', audio_mode=1) * 1000
-                if extra_length:
-                    whole_duration += extra_length * 1000
-            silent_audio = AudioSegment.silent(duration=whole_duration)
             sound_modules_num = len(self.channel_sound_modules)
             track_number = len(current_chord)
+            silent_audio = None
             for i in range(track_number):
                 current_channel_number = current_channels[i]
                 if current_channel_number >= sound_modules_num:
@@ -378,41 +361,55 @@ class daw:
                         bank=current_instrument[1],
                         preset=current_instrument[0],
                         mode=1)
-                    silent_audio = silent_audio.overlay(
-                        current_sound_modules.export_chord(
-                            current_track,
-                            bpm=current_bpm,
-                            get_audio=True,
-                            channel=current_channel,
-                            effects=current_track.effects
-                            if check_effect(current_track) else None,
-                            pan=current_pan[i],
-                            volume=current_volume[i],
-                            length=None
-                            if not track_lengths else track_lengths[i],
-                            extra_length=None if not track_extra_lengths else
-                            track_extra_lengths[i],
-                            **soundfont_args),
-                        position=bar_to_real_time(
-                            current_start_times[i] + current_track.start_time,
-                            current_bpm, 1))
+                    current_silent_audio = current_sound_modules.export_chord(
+                        current_track,
+                        bpm=current_bpm,
+                        get_audio=True,
+                        channel=current_channel,
+                        effects=current_track.effects
+                        if check_effect(current_track) else None,
+                        pan=current_pan[i],
+                        volume=current_volume[i],
+                        length=None if not track_lengths else track_lengths[i],
+                        extra_length=None
+                        if not track_extra_lengths else track_extra_lengths[i],
+                        **soundfont_args)
                     current_sound_modules.change(current_channel,
                                                  current_sfid,
                                                  current_bank,
                                                  current_preset,
                                                  mode=1)
                 else:
-                    silent_audio = self.channel_to_audio(
-                        current_tracks[i],
+                    current_silent_audio = self.channel_to_audio(
                         current_track,
-                        silent_audio,
-                        current_bpm,
-                        current_pan[i],
-                        current_volume[i],
-                        current_start_times[i] + current_track.start_time,
+                        current_channel_num=current_channel_number,
+                        current_bpm=current_bpm,
+                        current_pan=current_pan[i],
+                        current_volume=current_volume[i],
                         length=None if not track_lengths else track_lengths[i],
                         extra_length=None
                         if not track_extra_lengths else track_extra_lengths[i])
+                current_start_time = bar_to_real_time(
+                    current_start_times[i] + current_track.start_time,
+                    current_bpm, 1)
+                current_audio_duration = current_start_time + len(
+                    current_silent_audio)
+                if silent_audio is None:
+                    new_whole_duration = current_audio_duration
+                    silent_audio = AudioSegment.silent(
+                        duration=new_whole_duration)
+                    silent_audio = silent_audio.overlay(
+                        current_silent_audio, position=current_start_time)
+                else:
+                    silent_audio_duration = len(silent_audio)
+                    new_whole_duration = max(current_audio_duration,
+                                             silent_audio_duration)
+                    new_silent_audio = AudioSegment.silent(
+                        duration=new_whole_duration)
+                    new_silent_audio = new_silent_audio.overlay(silent_audio)
+                    new_silent_audio = new_silent_audio.overlay(
+                        current_silent_audio, position=current_start_time)
+                    silent_audio = new_silent_audio
             if check_effect(current_chord):
                 silent_audio = process_effect(silent_audio,
                                               current_chord.effects,
@@ -452,11 +449,9 @@ class daw:
     def channel_to_audio(self,
                          current_chord,
                          current_channel_num=0,
-                         silent_audio=None,
                          current_bpm=None,
                          current_pan=None,
                          current_volume=None,
-                         current_start_time=0,
                          length=None,
                          extra_length=None):
         if len(self.channel_sound_modules) <= current_channel_num:
@@ -478,8 +473,6 @@ class daw:
         current_sounds = self.channel_sound_modules[current_channel_num]
         current_sound_path = self.channel_sound_modules_name[
             current_channel_num]
-        current_start_time = bar_to_real_time(current_start_time, current_bpm,
-                                              1)
         current_position = 0
         whole_length = len(current_chord)
         for i in range(whole_length):
@@ -569,9 +562,7 @@ class daw:
             current_silent_audio = process_effect(current_silent_audio,
                                                   current_chord.effects,
                                                   bpm=current_bpm)
-        silent_audio = silent_audio.overlay(current_silent_audio,
-                                            position=current_start_time)
-        return silent_audio
+        return current_silent_audio
 
     def export_midi_file(self, obj, filename, channel_num=0, write_args={}):
         result = self.get_current_musicpy_chords(obj, channel_num)
