@@ -1,6 +1,10 @@
 # musicpy_dev
 This is a repository holding musicpy develop thoughts and some other related stuffs.
 
+### Date: 2023-03-05
+
+Here is an article about how I think about the definitions of melodic features of a piece of melody, and how to extract them.
+
 ### Date: 2023-02-06
 
 Here is a section of For An Angel by Paul Van Dyk written in musicpy, using musicpy's daw module, which could load instruments and render musicpy's chords and pieces into audio files or play directly.
