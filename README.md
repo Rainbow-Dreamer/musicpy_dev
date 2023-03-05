@@ -3,7 +3,7 @@ This is a repository holding musicpy develop thoughts and some other related stu
 
 ### Date: 2023-03-05
 
-Here is an article about how I think about the definitions of melodic features of a piece of melody, and how to extract them.
+[Here](https://github.com/Rainbow-Dreamer/musicpy_dev/blob/main/Melodic%20feature%20extraction%20algorithm.md) is an article about how I think about the definitions of melodic features of a piece of melody, and how to extract them.
 
 ### Date: 2023-02-06
 
