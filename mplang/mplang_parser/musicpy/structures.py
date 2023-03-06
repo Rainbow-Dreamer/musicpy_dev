@@ -662,11 +662,18 @@ class chord:
                 )
 
     def __repr__(self):
-        current_notes_str = ', '.join([str(i) for i in self.notes[:10]])
-        if len(self.notes) > 10:
+        return self.show()
+
+    def show(self, limit=10):
+        if limit is None:
+            limit = len(self.notes)
+        current_notes_str = ', '.join([str(i) for i in self.notes[:limit]])
+        if len(self.notes) > limit:
             current_notes_str += ', ...'
-        current_interval_str = ', '.join([str(i) for i in self.interval[:10]])
-        if len(self.interval) > 10:
+        current_interval_str = ', '.join([
+            str(Fraction(i).limit_denominator()) for i in self.interval[:limit]
+        ])
+        if len(self.interval) > limit:
             current_interval_str += ', ...'
         result = f'chord(notes=[{current_notes_str}], interval=[{current_interval_str}], start_time={self.start_time})'
         return result
@@ -2766,12 +2773,16 @@ class piece:
         self.daw_channels = daw_channels
 
     def __repr__(self):
-        return (
+        return self.show()
+
+    def show(self, limit=10):
+        result = (
             f'[piece] {self.name if self.name else ""}\n'
         ) + f'BPM: {round(self.bpm, 3)}\n' + '\n'.join([
-            f'track {i+1}{" channel " + str(self.channels[i]) if self.channels else ""} {self.track_names[i] + " " if self.track_names and self.track_names[i] else ""}| instrument: {self.instruments[i]} | start time: {self.start_times[i]} | {self.tracks[i]}'
+            f'track {i+1}{" channel " + str(self.channels[i]) if self.channels else ""} {self.track_names[i] + " " if self.track_names and self.track_names[i] else ""}| instrument: {self.instruments[i]} | start time: {self.start_times[i]} | {self.tracks[i].show(limit=limit)}'
             for i in range(len(self.tracks))
         ])
+        return result
 
     def __eq__(self, other):
         return type(other) is piece and self.__dict__ == other.__dict__
@@ -3983,6 +3994,9 @@ class track:
             self.volume = []
 
     def __repr__(self):
+        return self.show()
+
+    def show(self, limit=10):
         msg = []
         if self.channel is not None:
             msg.append(f'{"channel " + str(self.channel)}')
@@ -3993,7 +4007,7 @@ class track:
             msg += ' | '
         return (f'[track] {self.name if self.name is not None else ""}\n') + (
             f'BPM: {round(self.bpm, 3)}\n' if self.bpm is not None else ""
-        ) + f'{msg}instrument: {self.instrument} | start time: {self.start_time} | {self.content}'
+        ) + f'{msg}instrument: {self.instrument} | start time: {self.start_time} | {self.content.show(limit=limit)}'
 
     def add_pan(self,
                 value,
@@ -4602,10 +4616,12 @@ class drum:
         current_fix_beats = None
         current_inner_fix_beats = 1
         current_append_durations = [
-            default_duration for i in current_append_notes
+            self._apply_dotted_notes(default_duration, self._get_dotted(i))
+            for i in current_append_notes
         ]
         current_append_intervals = [
-            default_interval for i in current_append_notes
+            self._apply_dotted_notes(default_interval, self._get_dotted(i))
+            for i in current_append_notes
         ]
         current_append_volumes = [default_volume for i in current_append_notes]
         if translate_mode == 0:
@@ -4862,13 +4878,13 @@ class drum:
             current_append_notes = new_current_append_notes
 
         current_append_durations = [
-            default_duration
+            self._apply_dotted_notes(default_duration, k.dotted_num)
             if not current_part_fix_length_unit else self._apply_dotted_notes(
                 current_part_fix_length_unit, k.dotted_num)
             for k in current_append_notes
         ]
         current_append_intervals = [
-            default_interval
+            self._apply_dotted_notes(default_interval, k.dotted_num)
             if not current_part_fix_length_unit else self._apply_dotted_notes(
                 current_part_fix_length_unit, k.dotted_num)
             for k in current_append_notes
