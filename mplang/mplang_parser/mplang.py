@@ -602,7 +602,6 @@ def define_daw_parser(lines, i, variable_name, current=None):
 
 def parse(text=None, file=None, debug=0):
     result = parser(text, file)
-    print(111, result, flush=True)
     if debug > 0:
         print(result)
     if debug == 0 or debug == 2:
