@@ -1,6 +1,34 @@
 # musicpy_dev
 This is a repository holding musicpy develop thoughts and some other related stuffs.
 
+### Date: 2023-03-19
+
+Musicpy recently added "relative pitch syntax" to chord function and translate function, which can be more convenient when constructing chords without considering absolute pitch. You can see [wiki](https://github.com/Rainbow-Dreamer/musicpy/wiki/Basic-syntax-of-chord-type#constructing-chords-from-note-names-note-durations-and-note-intervals) for details.
+
+Here are some examples:
+
+```python
+example = chord('A#4, +7, +10, +1o2, +1o3, +1o5, +1o3, +1o2', default_interval=1/8, default_duration=1/8)
+>> example
+chord(notes=[A#4, F5, G#5, C6, C#6, D#6, C#6, C6], interval=[1/8, 1/8, 1/8, 1/8, 1/8, 1/8, 1/8, 1/8, 1/8], start_time=0)
+
+example2 = chord('C5, ++2, ++2, ++1, ++2', default_interval=1/8, default_duration=1/8)
+>> example2
+chord(notes=[C5, D5, E5, F5, G5], interval=[1/8, 1/8, 1/8, 1/8, 1/8], start_time=0)
+```
+
+Also for scale type there is a new `get` method which could obtain a melody which is derived from the scale by scale degrees. This makes writing a melody easier as you are using numbers relative to a scale instead of absolute pitches, you only need to consider scale degrees when using this method. You can see [wiki](https://github.com/Rainbow-Dreamer/musicpy/wiki/Basic-syntax-of-scale-type#get-melody-from-scale-degrees-by-numbered-musical-notation) for details.
+
+Here are some examples:
+
+```python
+>>> S('C major').get('1,1,5,5,6,6,5,-,4,4,3,3,2,2,1,-')
+chord(notes=[C4, C4, G4, G4, A4, A4, G4, F4, F4, E4, ...], interval=[1/8, 1/8, 1/8, 1/8, 1/8, 1/8, 1/4, 1/8, 1/8, 1/8, ...], start_time=0)
+
+>>> S('A#5 major').get('1,7,5,3,2,3[.16;.], o4, 1[.8.;.],7,1,-, o3, 6;3.1;1.1, 6;3.1;1.1, 5;7.1;2.1, 5;7.1;2.1, 6;3.1;1.1, -')
+chord(notes=[A#5, A5, F5, D5, C5, D5, A#4, A4, A#4, G3, ...], interval=[1/8, 1/8, 1/8, 1/8, 1/8, 1/16, 3/16, 1/8, 1/4, 0, ...], start_time=0)
+```
+
 ### Date: 2023-03-05
 
 [Here](https://github.com/Rainbow-Dreamer/musicpy_dev/blob/main/Melodic%20feature%20extraction%20algorithm.md) is an article about how I think about the definitions of melodic features of a piece of melody, and how to extract them.
