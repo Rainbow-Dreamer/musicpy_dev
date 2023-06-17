@@ -2,7 +2,7 @@
 
 ## Some eigenvalues of a melody are given the following definitions.
 
-Given a set of notes with total number `n` and pitches `p1, p2, ... , pn ∈ N`, the bar intervals between the notes are `i1, i2, ... , in`, the bar length of the notes is `d1, d2, ... , dn`, and the absolute interval between each two adjacent notes is `pi1, pi2, . .pin`, where `pin = abs(pi(n+1) - pin)`.
+Given a set of notes with total number `n` and pitches `p1, p2, ... , pn ∈ N`, the bar intervals between the notes are `i1, i2, ... , in`, the bar length of the notes is `d1, d2, ... , dn`, and the absolute interval between each two adjacent notes is `pi1, pi2, . .pin`, where `pin = abs(p(n+1) - pn)`.
 
 ### Aspect of Note pitches
 
