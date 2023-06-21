@@ -1,4 +1,3 @@
-import sys
 import musicpy as mp
 import numpy as np
 
