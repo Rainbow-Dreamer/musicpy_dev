@@ -1,6 +1,10 @@
 # musicpy_dev
 This is a repository holding musicpy develop thoughts and some other related stuffs.
 
+### Date: 2023-06-21
+
+I implemented a tool module to calculate the melodic features of a melody, you can see the module [here](https://github.com/Rainbow-Dreamer/musicpy_dev/blob/main/melodic_features_extraction/melodic_features_extraction.py).
+
 ### Date: 2023-03-19
 
 Musicpy recently added "relative pitch syntax" to chord function and translate function, which can be more convenient when constructing chords without considering absolute pitch. You can see [wiki](https://github.com/Rainbow-Dreamer/musicpy/wiki/Basic-syntax-of-chord-type#constructing-chords-from-note-names-note-durations-and-note-intervals) for details.
@@ -31,7 +35,7 @@ chord(notes=[A#5, A5, F5, D5, C5, D5, A#4, A4, A#4, G3, ...], interval=[1/8, 1/8
 
 ### Date: 2023-03-05
 
-[Here](https://github.com/Rainbow-Dreamer/musicpy_dev/blob/main/Melodic%20feature%20extraction/Melodic%20feature%20extraction%20algorithm.md) is an article about how I think about the definitions of melodic features of a piece of melody, and how to extract them.
+[Here](https://github.com/Rainbow-Dreamer/musicpy_dev/blob/main/melodic_features_extraction/Melodic%20feature%20extraction%20algorithm.md) is an article about how I think about the definitions of melodic features of a piece of melody, and how to extract them.
 
 ### Date: 2023-02-06
 

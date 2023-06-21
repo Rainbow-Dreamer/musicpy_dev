@@ -1,6 +1,4 @@
 import sys
-
-sys.path.append(r'G:\university\programming files\py files\musicpy\musicpy')
 import musicpy as mp
 import numpy as np
 
@@ -103,17 +101,3 @@ class Melody:
             i for i in current_chord_names if i in current_scale_names
         ]) / len(current_chord_names)
         return current_key_rate
-
-
-q1 = mp.read(
-    r'G:\music project files\mp3 and midi files\midi files\2023.1.9.mid')
-q1 = q1.tracks[0]
-q2 = mp.read(
-    r'G:\music project files\mp3 and midi files\midi files\牧羊人的眼泪（又名沉睡国度）xin.mid'
-)
-q2 = q2.merge(get_off_drums=True)[0]
-q2.clear_other_messages()
-q2 = mp.alg.split_melody(q2)
-
-m1 = Melody(q1)
-m2 = Melody(q2)
