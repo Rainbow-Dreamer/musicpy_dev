@@ -31,7 +31,7 @@ chord(notes=[A#5, A5, F5, D5, C5, D5, A#4, A4, A#4, G3, ...], interval=[1/8, 1/8
 
 ### Date: 2023-03-05
 
-[Here](https://github.com/Rainbow-Dreamer/musicpy_dev/blob/main/Melodic%20feature%20extraction%20algorithm.md) is an article about how I think about the definitions of melodic features of a piece of melody, and how to extract them.
+[Here](https://github.com/Rainbow-Dreamer/musicpy_dev/blob/main/Melodic%20feature%20extraction/Melodic%20feature%20extraction%20algorithm.md) is an article about how I think about the definitions of melodic features of a piece of melody, and how to extract them.
 
 ### Date: 2023-02-06
 
