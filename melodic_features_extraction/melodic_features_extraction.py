@@ -247,14 +247,15 @@ def test_plot_multiple_moving_melodic_features(current_file,
     plt.show()
 
 
-midi_path = r'G:\music project files\mp3 and midi files\midi files'
-current_file = r'G:\music project files\mp3 and midi files\midi files\牧羊人的眼泪（又名沉睡国度）xin.mid'
-test_plot_multiple_moving_melodic_features(current_file,
-                                           current_width=4,
-                                           current_bar_interval=1 / 4,
-                                           plot_bar_ticks=2,
-                                           features=[
-                                               'pitch_mean', 'pitch_var',
-                                               'pitch_interval_mean',
-                                               'pitch_interval_var'
-                                           ])
+if __name__ == '__main__':
+    midi_path = r'G:\music project files\mp3 and midi files\midi files'
+    current_file = r'G:\music project files\mp3 and midi files\midi files\牧羊人的眼泪（又名沉睡国度）xin.mid'
+    test_plot_multiple_moving_melodic_features(current_file,
+                                               current_width=4,
+                                               current_bar_interval=1 / 4,
+                                               plot_bar_ticks=2,
+                                               features=[
+                                                   'pitch_mean', 'pitch_var',
+                                                   'pitch_interval_mean',
+                                                   'pitch_interval_var'
+                                               ])
