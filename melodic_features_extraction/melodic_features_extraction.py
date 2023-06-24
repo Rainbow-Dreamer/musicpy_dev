@@ -5,6 +5,7 @@ import musicpy as mp
 import numpy as np
 from copy import deepcopy as copy
 from matplotlib import pyplot as plt
+import math
 
 
 class Melody:
@@ -186,8 +187,11 @@ def test_plot_moving_melodic_features(current_file,
     features = [getattr(i, feature) for i in moving_melodic_features]
     points = [
         current_melody.current_chord.start_time + i * current_bar_interval
-        for i in range(0,
-                       int(current_melody_length / current_bar_interval) - 1)
+        for i in range(
+            0,
+            math.ceil((current_melody_length -
+                       current_melody.current_chord.start_time) /
+                      current_bar_interval))
     ]
     fig = plt.figure(figsize=(12, 8))
     plt.plot(points, features)
@@ -222,8 +226,11 @@ def test_plot_multiple_moving_melodic_features(current_file,
             width=current_width, bar_interval=current_bar_interval)
     points = [
         current_melody.current_chord.start_time + i * current_bar_interval
-        for i in range(0,
-                       int(current_melody_length / current_bar_interval) - 1)
+        for i in range(
+            0,
+            math.ceil((current_melody_length -
+                       current_melody.current_chord.start_time) /
+                      current_bar_interval))
     ]
     for j, feature in enumerate(features):
         if key_rate_scale is not None:
