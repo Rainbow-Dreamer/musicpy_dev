@@ -49,7 +49,7 @@ You need to pip install `sf2_loader` in order to use musicpy's daw module.
 
 Run the python script in the zip file to take a listen to what this sounds. Here I will also provide a rendered version.
 
-You can download this from [here](https://www.jianguoyun.com/p/DXF-3AIQhPG0CBi_kPQEIAA)
+You can download this from [here](https://www.jianguoyun.com/p/Dek7mWEQt43aDBi8suoFIAA)
 
 
 
