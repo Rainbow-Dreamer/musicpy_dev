@@ -819,7 +819,7 @@ class daw:
                 current_chord = self.convert_types(current_chord, bpm,
                                                    current_channel_num)
             else:
-                return
+                raise ValueError(f'daw cannot play {type(current_chord)}')
         current_channel_nums = current_chord.daw_channels if current_chord.daw_channels else [
             i for i in range(len(current_chord))
         ]
@@ -1373,7 +1373,8 @@ def load_mdi(file_path, convert=True):
     current_samples = current_mdi.samples
     if convert:
         current_mdi.samples = {
-            i: AudioSegment.from_file(
+            i:
+            AudioSegment.from_file(
                 BytesIO(current_samples[i]), format=os.path.splitext(i)[1]
                 [1:]).set_frame_rate(44100).set_channels(2).set_sample_width(2)
             for i in current_samples
